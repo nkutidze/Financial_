@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>ჩემი ფინანსები</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700&family=Noto+Serif+Georgian:wght@500;600;700&display=swap">
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Layout: iOS grouped-list app. Large title, month switcher, inset cards, floating tab bar, bottom sheet for entry. */
@@ -7,17 +8,19 @@
   --bg:#f2f2f7; --card:#ffffff; --fg:#000000; --muted:#8e8e93; --line:rgba(60,60,67,.16);
   --accent:#007aff; --accent-fg:#ffffff; --fill:rgba(118,118,128,.12);
   --good:#34c759; --warn:#ff9500; --bad:#ff3b30; --bar:rgba(249,249,249,.86);
-  --c0:#ff9500; --c1:#32ade6; --c2:#5856d6; --c3:#af52de; --c4:#ff2d55; --c5:#30b0c7; --c6:#8e8e93;
+  --c0:#ff9500; --c1:#32ade6; --c2:#5856d6; --c3:#af52de; --c4:#ff2d55; --c5:#30b0c7; --c6:#8e8e93; --c7:#a2845e;
+  --segsel:#ffffff;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
   --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","Noto Sans Georgian","Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#000000; --card:#1c1c1e; --fg:#ffffff; --muted:#8e8e93; --line:rgba(84,84,88,.55);
   --accent:#0a84ff; --fill:rgba(118,118,128,.24); --good:#30d158; --warn:#ff9f0a; --bad:#ff453a; --bar:rgba(28,28,30,.86);
-  --c0:#ff9f0a; --c1:#64d2ff; --c2:#7d7aff; --c3:#bf5af2; --c4:#ff375f; --c5:#40c8e0; --c6:#98989d; color-scheme:dark}}
+  --c0:#ff9f0a; --c1:#64d2ff; --c2:#7d7aff; --c3:#bf5af2; --c4:#ff375f; --c5:#40c8e0; --c6:#98989d; --c7:#ac8e68; --segsel:#636366; --shadow:none; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#000000; --card:#1c1c1e; --fg:#ffffff; --muted:#8e8e93; --line:rgba(84,84,88,.55);
   --accent:#0a84ff; --fill:rgba(118,118,128,.24); --good:#30d158; --warn:#ff9f0a; --bad:#ff453a; --bar:rgba(28,28,30,.86);
-  --c0:#ff9f0a; --c1:#64d2ff; --c2:#7d7aff; --c3:#bf5af2; --c4:#ff375f; --c5:#40c8e0; --c6:#98989d; color-scheme:dark}
+  --c0:#ff9f0a; --c1:#64d2ff; --c2:#7d7aff; --c3:#bf5af2; --c4:#ff375f; --c5:#40c8e0; --c6:#98989d; --c7:#ac8e68; --segsel:#636366; --shadow:none; color-scheme:dark}
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.3;
@@ -36,7 +39,7 @@ h1{font-size:34px;line-height:1.1;font-weight:700;letter-spacing:-.02em;margin:1
 .months button.nav:active{background:var(--fill)}
 .months button.nav[disabled]{opacity:.3}
 
-.card{background:var(--card);border-radius:14px;overflow:hidden}
+.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .section{margin:0 0 22px}
 .section>h2{font-size:13px;font-weight:400;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 6px 16px}
 .section>.foot{font-size:13px;color:var(--muted);margin:6px 16px 0}
@@ -89,19 +92,64 @@ textarea.io{width:100%;min-height:90px;background:var(--fill);border:0;border-ra
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bar);
   -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--line);
   padding:6px max(16px,env(safe-area-inset-left,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px))}
-.tabbar .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
+.tabbar .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.pill.good{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:2px;border-radius:10px;background:var(--fill);margin:0 0 16px}
+.seg button{padding:7px;border-radius:8px;font-size:15px;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--segsel);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.chartscroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}
+.chartscroll::-webkit-scrollbar{display:none}
+.chart{display:block;overflow:visible;max-width:none}
+.chart text{font:11px var(--font);fill:var(--muted)}
+.chart text.sel{fill:var(--fg);font-weight:600}
+.chart .bar{transform-box:fill-box;transform-origin:50% 100%}
+#app.a-tab .chart .bar{animation:growY .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+input.sw{-webkit-appearance:none;appearance:none;width:51px;height:31px;min-width:51px;border-radius:16px;background:var(--fill);position:relative;flex:none;padding:0;border:0;margin:0;cursor:pointer}
+input.sw::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+input.sw:checked{background:var(--good)}
+input.sw:checked::after{left:22px}
+.field input.sw{width:51px;text-align:left}
+.titlerow{margin-bottom:12px}
+.titlegroup{display:flex;align-items:center;gap:8px;margin-top:10px;flex:none}
+.titlegroup .iconbtn{margin-top:0}
+.monthpill{display:flex;align-items:center;background:var(--fill);border-radius:20px;height:40px;flex:none}
+.monthpill .nav{width:30px;height:40px;display:grid;place-items:center;color:var(--accent)}
+.monthpill .nav[disabled]{opacity:.3}
+.monthpill .lbl{padding:0 2px;font-size:15px;font-weight:600;color:var(--fg);height:40px;white-space:nowrap}
+.sheet.compact{height:auto;max-height:90%}
+.yearrow{display:flex;align-items:center;justify-content:center;gap:24px;font-size:22px;margin:4px 0 16px}
+.yearrow button{width:44px;height:44px;border-radius:50%;background:var(--fill);color:var(--accent);font-size:26px;line-height:1}
+.yearrow button[disabled]{opacity:.3}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-bottom:12px}
+.mcell{position:relative;height:56px;border-radius:14px;background:var(--card);font-size:17px;font-weight:500;box-shadow:var(--shadow)}
+.mcell.sel{background:var(--accent);color:var(--accent-fg)}
+.mcell[disabled]{opacity:.3}
+.mcell i{position:absolute;left:50%;bottom:8px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--accent)}
+.mcell.sel i{background:#fff}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.iconbtn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:var(--fill);margin-top:10px;flex:none}
+.iconbtn svg{width:20px;height:20px}
+.iconbtn[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+.search{display:flex;align-items:center;gap:8px;background:var(--fill);border-radius:12px;padding:0 12px;margin:0 0 16px;color:var(--muted)}
+.search svg{width:18px;height:18px;flex:none}
+.search input{flex:1;min-width:0;background:none;border:0;outline:none;padding:10px 0;font-size:17px;-webkit-appearance:none;appearance:none}
+.quick{display:flex;gap:8px;overflow-x:auto;padding:0 2px 14px;margin:0 -2px;scrollbar-width:none}
+.quick::-webkit-scrollbar{display:none}
+.quick .chip{flex:none;max-width:210px}
+.quick .qt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.banner{flex-wrap:wrap}
 .tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;color:var(--muted);font-size:10.5px;font-weight:500}
 .tab svg{width:26px;height:26px}
 .tab[aria-selected="true"]{color:var(--accent)}
 .fab{position:fixed;z-index:21;right:max(18px,calc(env(safe-area-inset-right,0px) + 6px));
   bottom:calc(68px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;background:var(--accent);color:var(--accent-fg);
   display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,122,255,.35)}
-.fab:active{transform:scale(.94)}
 .fab svg{width:26px;height:26px}
 
-.scrim{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
-.sheet{width:100%;max-width:560px;max-height:92%;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;
-  padding:8px max(16px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px));animation:up .28s cubic-bezier(.2,.9,.3,1)}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.32);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:560px;height:calc(100% - env(safe-area-inset-top,0px) - 14px);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--bg);border-radius:20px 20px 0 0;
+  padding:8px max(16px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px))}
 .grab{width:36px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 10px}
 .sheethead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .sheethead b{font-size:17px;font-weight:600}
@@ -118,10 +166,85 @@ textarea.io{width:100%;min-height:90px;background:var(--fill);border:0;border-ra
 .chip .ic{width:22px;height:22px}
 .chip .ic svg{width:13px;height:13px}
 .chip[aria-pressed="true"] .ic{background:#fff!important;color:var(--accent)}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(130px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:15px;animation:fade .2s ease}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(130px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:15px}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes up{from{transform:translateY(40px);opacity:.5}to{transform:none;opacity:1}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes inL{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@keyframes inR{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{0%{transform:scale(.82)}60%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes flash{from{background:color-mix(in srgb,var(--accent) 20%,transparent)}to{background:transparent}}
+@keyframes fadeout{to{opacity:0}}
+@keyframes down{to{transform:translateY(100%)}}
+#app.a-tab>*{animation:rise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*50ms)}
+.track i,.catbar i{transform-origin:left}
+#app.a-tab .track i,#app.a-tab .catbar i{animation:grow .9s cubic-bezier(.2,.8,.2,1) both .15s}
+.card:has(>.hero){background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--card)),var(--card) 75%)}
+.fab:hover{box-shadow:0 8px 22px rgba(0,122,255,.45)}
+
+/* ---- Visual refresh ---- */
+:root{--serif:"Noto Serif Georgian","New York",ui-serif,Georgia,serif}
+h1{font-family:var(--serif);font-size:32px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.card{border-radius:18px}
+.card:has(>.hero){border-radius:24px;background:linear-gradient(165deg,color-mix(in srgb,var(--accent) 9%,var(--card)),var(--card) 75%)}
+.section>h2,.daytitle,.hero .k{text-transform:none;letter-spacing:0;font-weight:600;font-size:13.5px}
+.section>h2,.daytitle{margin-left:4px;margin-right:4px}
+.hero .big{font-family:var(--serif);font-weight:600;font-size:48px;letter-spacing:-.015em}
+.track{height:10px;border-radius:5px}
+.ic{border-radius:10px}
+.chip{border-radius:20px}
+.amount input{font-family:var(--serif);font-weight:600}
+.sheet{border-radius:26px 26px 0 0}
+body{padding-block-end:150px}
+.tabbar{left:max(12px,calc(50% - 268px));right:max(12px,calc(50% - 268px));bottom:calc(10px + env(safe-area-inset-bottom,0px));border:.5px solid var(--line);border-radius:28px;padding:6px 8px;box-shadow:var(--shadow),0 14px 30px -12px rgba(0,0,0,.25)}
+.tabbar .in{max-width:none}
+.tab{border-radius:20px;padding:6px 0}
+.tab[aria-selected="true"]{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.fab{border-radius:20px;bottom:calc(92px + env(safe-area-inset-bottom,0px));box-shadow:0 10px 22px -6px color-mix(in srgb,var(--accent) 55%,transparent)}
+.fab:hover{box-shadow:0 12px 26px -6px color-mix(in srgb,var(--accent) 65%,transparent)}
+.toast{bottom:calc(160px + env(safe-area-inset-bottom,0px))}
+.xp{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .38s cubic-bezier(.2,.8,.2,1),opacity .28s,visibility 0s .38s}
+.xp.open{grid-template-rows:1fr;opacity:1;visibility:visible;transition-delay:0s}
+.xp>div{overflow:hidden;min-height:0}
+.pbar{display:flex;gap:2px;height:12px;border-radius:6px;overflow:hidden;background:var(--fill)}
+.pbar i{display:block;min-width:3px;transition:flex-basis .3s}
+.plrow{display:flex;align-items:center;gap:12px;padding:9px 16px;min-height:54px;position:relative;width:100%}
+.plrow+.plrow::before{content:"";position:absolute;top:0;left:60px;right:0;border-top:.5px solid var(--line)}
+.plrow .grow{flex:1;min-width:0}
+.pin{display:flex;align-items:center;justify-content:flex-end;gap:4px;min-width:104px;padding:7px 12px;border-radius:12px;background:var(--fill)}
+.pin:focus-within{box-shadow:0 0 0 2px var(--accent)}
+.pin input{width:76px;padding:0;border:0;outline:0;background:transparent;text-align:right;font:inherit;font-weight:600;color:var(--fg);-webkit-appearance:none;appearance:none}
+.pin .unit{color:var(--muted)}
+.pin.auto{background:transparent;font-weight:600;padding-right:0}
+.titlegroup{margin-left:auto}
+/* ---- Fintech redesign (same colors) ---- */
+body{padding-top:14px;padding-block-end:130px}
+.card{border-radius:24px;border:.5px solid var(--line);box-shadow:0 2px 14px rgba(16,24,40,.05)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card{box-shadow:none}}
+.section>h2{font-size:17px;font-weight:700;color:var(--fg);margin:0 4px 10px}
+.hero .big,.amount input{font-family:inherit;font-weight:800;letter-spacing:-.02em}
+.card:has(>.hero:not(#plansum)){background:linear-gradient(150deg,var(--accent),color-mix(in srgb,var(--accent) 72%,#00123a));border-color:transparent;color:#fff;box-shadow:0 14px 28px -12px color-mix(in srgb,var(--accent) 70%,transparent)}
+.card:has(>.hero:not(#plansum)) :is(.k,.cap,.sub,.stats span){color:rgba(255,255,255,.84)}
+.card:has(>.hero:not(#plansum)) .big.neg{color:#FFD3CE}
+.card:has(>.hero:not(#plansum)) .track{background:rgba(255,255,255,.25)}
+.card:has(>.hero:not(#plansum)) .track i:only-child{background:#fff!important}
+.card:has(>.hero:not(#plansum)) .stats,.card:has(>.hero:not(#plansum)) .stats>div{border-color:rgba(255,255,255,.2)}
+.card:has(>.hero:not(#plansum)) .chip{background:rgba(255,255,255,.18);color:#fff}
+.card:has(>.hero:not(#plansum)) .chip[aria-pressed="true"]{background:#fff;color:var(--accent)}
+.card:has(>.hero:not(#plansum)) .iconbtn{background:rgba(255,255,255,.2);color:#fff}
+.card:has(>.hero:not(#plansum)) .iconbtn[aria-pressed="true"]{background:#fff;color:var(--accent)}
+.row,.plrow{min-height:62px;padding-top:12px;padding-bottom:12px}
+.row .ic,.plrow .ic{width:40px;height:40px;border-radius:50%}
+.row .ic svg,.plrow .ic svg{width:20px;height:20px}
+.row .amt{font-weight:700}
+.tabbar{left:0;right:0;bottom:0;background:var(--card);border:0;border-top:.5px solid var(--line);border-radius:24px 24px 0 0;padding:8px 8px max(10px,env(safe-area-inset-bottom,0px));box-shadow:0 -6px 24px rgba(16,24,40,.06)}
+.tabbar .in{max-width:560px;margin:0 auto}
+.tab{border-radius:0;background:none;padding:4px 0}
+.tab[aria-selected="true"]{background:none;color:var(--accent)}
+.fab{border-radius:50%;width:56px;height:56px;bottom:calc(88px + env(safe-area-inset-bottom,0px));box-shadow:0 10px 22px -6px color-mix(in srgb,var(--accent) 60%,transparent)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
 <div class="wrap" id="app"></div>
@@ -135,17 +258,19 @@ var KEY='finance.v1';
 var CATS=[
   {id:'food',n:'საკვები',c:'var(--c0)',i:'<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 21V3c-2 2-3 4.5-3 8h3"/>'},
   {id:'transport',n:'ტრანსპორტი',c:'var(--c1)',i:'<rect x="4" y="4" width="16" height="13" rx="3"/><path d="M4 11h16M8 20v-3M16 20v-3"/>'},
-  {id:'home',n:'ბინა და კომუნალური',c:'var(--c2)',i:'<path d="M3 11l9-8 9 8M5 10v10h14V10"/>'},
+  {id:'home',n:'კომუნალურები',c:'var(--c2)',i:'<path d="M3 11l9-8 9 8M5 10v10h14V10"/>'},
   {id:'fun',n:'გართობა',c:'var(--c3)',i:'<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>'},
   {id:'health',n:'ჯანმრთელობა',c:'var(--c4)',i:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>'},
-  {id:'shop',n:'ტანსაცმელი და შოპინგი',c:'var(--c5)',i:'<path d="M5 8h14l-1 12H6zM9 8a3 3 0 0 1 6 0"/>'},
-  {id:'other',n:'სხვა',c:'var(--c6)',i:'<circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/>'}];
+  {id:'shop',n:'შოპინგი',c:'var(--c5)',i:'<path d="M5 8h14l-1 12H6zM9 8a3 3 0 0 1 6 0"/>'},
+  {id:'other',n:'სხვა',c:'var(--c6)',i:'<circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/>'},
+  {id:'loan',n:'სესხის დაბრუნება',c:'var(--c7)',i:'<path d="M4 12a8 8 0 0 1 14-5l2 2M20 4v5h-5M20 12a8 8 0 0 1-14 5l-2-2M4 20v-5h5"/>'}];
 function badge(c){return '<span class="ic" style="background:'+c.c+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+c.i+'</svg></span>'}
 var MONTHS=['იანვარი','თებერვალი','მარტი','აპრილი','მაისი','ივნისი','ივლისი','აგვისტო','სექტემბერი','ოქტომბერი','ნოემბერი','დეკემბერი'];
 var DAYS=['კვირა','ორშაბათი','სამშაბათი','ოთხშაბათი','ხუთშაბათი','პარასკევი','შაბათი'];
 var TABS=[
  {id:'days',n:'ხარჯები',i:'<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/>'},
  {id:'sum',n:'მიმოხილვა',i:'<path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/>'},
+ {id:'loans',n:'სესხები',i:'<path d="M7 7h12l-3-3M17 17H5l3 3"/>'},
  {id:'plan',n:'გეგმა',i:'<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h4"/>'}];
 
 function pad(n){return n<10?'0'+n:''+n}
@@ -153,13 +278,39 @@ function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function money(n){return (Math.round(n*100)/100).toLocaleString('en-US',{maximumFractionDigits:2}).replace(/,/g,' ')+' ₾'}
 function cat(id){for(var i=0;i<CATS.length;i++)if(CATS[i].id===id)return CATS[i];return CATS[6]}
+function countUp(el){
+  var to=parseFloat(el.dataset.count)||0;
+  if(!to||(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches))return;
+  var from=to*0.82,t0=performance.now()+180,D=1100;
+  el.textContent=money(from);
+  (function f(t){
+    if(t<t0){requestAnimationFrame(f);return}
+    var p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,5),v=from+(to-from)*e;
+    el.textContent=p<1?money(Math.round(v)):money(to);
+    if(p<1)requestAnimationFrame(f);
+  })(performance.now());
+}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 
 var now=new Date(), todayStr=ymd(now), curMonth=todayStr.slice(0,7);
 var S=load();
-function syncCustom(){(S.customCats||[]).forEach(function(c){if(!CATS.some(function(x){return x.id===c.id})){CATS.push({id:c.id,n:c.n,c:c.c,i:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2" fill="currentColor"/>'})}})}
+if(!S.created){S.created=Date.now();if(!S.demo){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}}
+var ICONS=[
+  [/საჩუქ|ჩუქ|დაბადებ/i,'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9M12 8c-2-4-6-3-5 0 1 1.500 5 0 5 0zM12 8c2-4 6-3 5 0-1 1.500-5 0-5 0z"/>'],
+  [/ყავ|კაფე|რესტ|ბარი/i,'<path d="M5 8h12v6a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2M8 3v2M12 3v2"/>'],
+  [/ბენზ|მანქ|ავტო/i,'<path d="M4 15v-3l2-5h12l2 5v3zM4 15v3h3v-3M17 15v3h3v-3"/><circle cx="8" cy="12" r=".8" fill="currentColor"/><circle cx="16" cy="12" r=".8" fill="currentColor"/>'],
+  [/სპორტ|ფიტნეს|დარბაზ/i,'<path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12"/>'],
+  [/განათლ|სწავლ|წიგნ|კურს/i,'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 1 2-2h13"/>'],
+  [/ტელეფ|ინტერნ|მობილ/i,'<rect x="7" y="2.500" width="10" height="19" rx="2.500"/><path d="M11 18.500h2"/>'],
+  [/შვილ|ბავშ|სათამაშ/i,'<circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/>'],
+  [/შინაურ|ძაღლ|კატა/i,'<circle cx="7" cy="9" r="1.800"/><circle cx="12" cy="6.500" r="1.800"/><circle cx="17" cy="9" r="1.800"/><path d="M12 12c-3 0-5 3-5 5 0 2 2 2 5 1 3 1 5 1 5-1 0-2-2-5-5-5z"/>']
+];
+function iconFor(n){for(var i=0;i<ICONS.length;i++)if(ICONS[i][0].test(n))return ICONS[i][1];return '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2" fill="currentColor"/>'}
+function syncCustom(){S.loans=S.loans||[];(S.customCats||[]).forEach(function(c){if(!CATS.some(function(x){return x.id===c.id})){CATS.push({id:c.id,n:c.n,c:c.c,i:iconFor(c.n)})}})}
 syncCustom();
-var ui={tab:'days',month:curMonth,sheet:null,toast:null,confirmDel:false,confirmClear:false};
+applyRecurring();
+var lastTab=null;
+var ui={tab:'days',dailyCat:'food',sumView:'out',month:curMonth,sheet:null,toast:null,confirmDel:false,confirmClear:false};
 
 function demo(){
   var y=now.getFullYear(),m=now.getMonth(),d=now.getDate(),ex=[];
@@ -168,6 +319,7 @@ function demo(){
     var day=Math.max(1,d-Math.floor(i*d/items.length));
     ex.push({id:uid()+i,amt:items[i][1],cat:items[i][0],note:items[i][2],date:y+'-'+pad(m+1)+'-'+pad(day)});
   }
+  ex.push({id:uid()+'i',amt:2800,cat:'income',note:'ხელფასი',date:y+'-'+pad(m+1)+'-01',type:'in'});
   return {income:2800,budgets:{food:600,transport:150,home:400,fun:200,health:150,shop:300,other:150},expenses:ex,demo:true};
 }
 function load(){
@@ -179,42 +331,83 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function monthAll(m){return S.expenses.filter(function(e){return e.date.slice(0,7)===m})}
 function monthExp(m){return monthAll(m).filter(function(e){return e.type!=='in'})}
 function monthInc(m){return monthAll(m).filter(function(e){return e.type==='in'})}
-function sum(a){return a.reduce(function(t,e){return t+e.amt},0)}
-function byCat(list){var o={};list.forEach(function(e){o[e.cat]=(o[e.cat]||0)+e.amt});return o}
+function eff(e){return Math.max(0,e.amt-(+e.back||0))}
+function sum(a){return a.reduce(function(t,e){return t+eff(e)},0)}
+function byCat(list){var o={};list.forEach(function(e){o[e.cat]=(o[e.cat]||0)+eff(e)});return o}
 function mLabel(m){var p=m.split('-');return MONTHS[+p[1]-1]+' '+p[0]}
 function shiftM(m,k){var p=m.split('-'),d=new Date(+p[0],+p[1]-1+k,1);return d.getFullYear()+'-'+pad(d.getMonth()+1)}
 function dayLabel(s){
   if(s===todayStr)return 'დღეს';
   var y=new Date(now);y.setDate(y.getDate()-1);if(s===ymd(y))return 'გუშინ';
-  var p=s.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);return DAYS[d.getDay()]+', '+(+p[2])+' '+MONTHS[+p[1]-1].slice(0,3)+'.';
+  var p=s.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);return DAYS[d.getDay()]+', '+(+p[2])+' '+MONTHS[+p[1]-1].slice(0,3)+'.'+(+p[0]!==now.getFullYear()?' '+p[0]:'');
 }
 function totalBudget(){var t=0;for(var k in S.budgets)t+=+S.budgets[k]||0;return t}
+function loanMonthTotal(){var t=0;(S.loans||[]).forEach(function(l){var st=loanStats(l);var pm=sum(st.rep.filter(function(e){return e.date.slice(0,7)===curMonth}));if(st.rem>0||pm>0)t+=Math.min(st.monthly,st.rem+pm)});return t}
 
 function monthNav(){
-  var atMax=ui.month>=curMonth;
-  return '<div class="months"><button class="nav" data-act="prev" aria-label="წინა თვე"><svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg></button>'+
-  '<span class="label">'+mLabel(ui.month)+'</span>'+
-  '<button class="nav" data-act="next" aria-label="შემდეგი თვე"'+(atMax?' disabled':'')+'><svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m2 2 8 8-8 8"/></svg></button></div>';
+  var atMax=ui.month>=curMonth,p=ui.month.split('-');
+  return '<div class="monthpill"><button class="nav" data-act="prev" aria-label="წინა თვე"><svg width="10" height="16" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg></button>'+
+  '<button class="lbl" data-act="monthpicker" aria-label="თვის და წლის არჩევა">'+MONTHS[+p[1]-1].slice(0,3)+' '+p[0]+'</button>'+
+  '<button class="nav" data-act="next" aria-label="შემდეგი თვე"'+(atMax?' disabled':'')+'><svg width="10" height="16" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2 2 8 8-8 8"/></svg></button></div>';
 }
 function banner(){
   return S.demo?'<div class="banner"><span class="grow">ეს ნიმუშის მონაცემებია. გასუფთავების შემდეგ დაიწყე შენი ხარჯების შეყვანა.</span><button data-act="clearDemo">გასუფთავება</button></div>':'';
 }
 
-function vDays(){
-  var all=monthAll(ui.month).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
-  var list=all.filter(function(e){return e.type!=='in'}),incM=sum(monthInc(ui.month));
-  var h='<h1>ხარჯები</h1>'+monthNav()+banner();
-  if(!all.length){
-    return h+'<div class="card empty"><b>ამ თვეში ჩანაწერი არ არის</b>დააჭირე ლურჯ ღილაკს და დაამატე ხარჯი ან შემოსავალი.</div>';
-  }
-  var isCurM=ui.month===curMonth,dayV,dayK;
-  if(isCurM){dayV=sum(list.filter(function(e){return e.date===todayStr}));dayK='დღეს დახარჯული'}
-  else{var pp=ui.month.split('-'),dd=new Date(+pp[0],+pp[1],0).getDate();dayV=sum(list)/dd;dayK='საშუალოდ დღეში'}
-  h+='<div class="section" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
-    '<div class="card" style="padding:16px;min-width:0"><div style="font-size:13px;color:var(--muted)">'+dayK+'</div><div class="num" style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+money(dayV)+'</div></div>'+
-    '<div class="card" style="padding:16px;min-width:0"><div style="font-size:13px;color:var(--muted)">თვეში დახარჯული</div><div class="num" style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+money(sum(list))+'</div>'+((incM+(+S.income||0))?'<div class="num" style="font-size:13px;color:var(--good);margin-top:2px">შემოსავალი +'+money(incM+(+S.income||0))+'</div>':'')+'</div></div>';
+
+function applyRecurring(){
+  var changed=false;
+  (S.recurring||[]).forEach(function(r){
+    r.done=r.done||[];
+    for(var m=r.from;m<=curMonth;m=shiftM(m,1)){
+      if(r.done.indexOf(m)>=0)continue;
+      var p=m.split('-'),dim=new Date(+p[0],+p[1],0).getDate(),d=m+'-'+pad(Math.min(r.day,dim));
+      if(d>todayStr)continue;
+      S.expenses.push({id:uid(),amt:r.amt,cat:r.cat,note:r.note,date:d,type:'out',recurId:r.id});
+      r.done.push(m);changed=true;
+    }
+  });
+  if(changed)save();
+}
+function quickList(lim){
+  var map={};
+  S.expenses.forEach(function(e){
+    if(e.type==='in'||e.loanId||e.recurId||!e.note)return;
+    var k=e.note.toLowerCase(),o=map[k];
+    if(!o)o=map[k]={note:e.note,cat:e.cat,amt:e.amt,date:e.date,n:0};
+    o.n++;
+    if(e.date>=o.date){o.date=e.date;o.cat=e.cat;o.amt=e.amt;o.note=e.note}
+  });
+  return Object.keys(map).map(function(k){return map[k]}).sort(function(a,b){return b.n-a.n||(a.date<b.date?1:-1)}).slice(0,lim||8);
+}
+function quickHtml(s){
+  if(s.editing||s.e.loanId||s.e.type==='in')return '';
+  var q=quickList();if(!q.length)return '';
+  return '<div class="quick">'+q.map(function(x,i){return '<button class="chip" data-act="quick" data-i="'+i+'">'+badge(cat(x.cat))+'<span class="qt">'+esc(x.note)+'</span></button>'}).join('')+'</div>';
+}
+function noteOpts(){return quickList(40).map(function(x){return '<option value="'+esc(x.note)+'">'}).join('')}
+function backupAge(){
+  if(!S.lastBackup)return 'ასლი ჯერ არ გაგიკეთებია.';
+  var d=Math.floor((Date.now()-S.lastBackup)/864e5);return 'ბოლო ასლი: '+(d<1?'დღეს':d+' დღის წინ')+'.';
+}
+function cmpTag(v,p,ok){if(!ok||!(v>0))return '';if(!(p>0))return ' · <span style="color:var(--muted)">წინა თვეში არ გქონია</span>';var d=Math.round((v-p)/p*100);if(!d)return '';return ' · <span style="color:'+(d>0?'var(--bad)':'var(--good)')+'">'+(d>0?'▲ ':'▼ ')+Math.abs(d)+'%</span> წინა თვესთან'}
+function backupBanner(){
+  if(S.demo||!S.expenses.length)return '';
+  var DAY=864e5,last=S.lastBackup||S.created||Date.now();
+  if(Date.now()<(S.snooze||0)||Date.now()-last<7*DAY)return '';
+  var d=Math.floor((Date.now()-last)/DAY);
+  return '<div class="banner"><span class="grow">'+(S.lastBackup?'ბოლო ასლი '+d+' დღის წინ გააკეთე.':'ასლი ჯერ არ გაგიკეთებია.')+' შეინახე, რომ მონაცემები არ დაგეკარგოს.</span><button data-act="exportfile">ასლის შენახვა</button><button data-act="snooze" style="color:var(--muted)">მოგვიანებით</button></div>';
+}
+function daysList(){
+  var q=(ui.q||'').trim().toLowerCase(),src;
+  if(q){src=S.expenses.filter(function(e){var cn=e.type==='in'?'შემოსავალი':cat(e.cat).n;return (e.note||'').toLowerCase().indexOf(q)>=0||cn.toLowerCase().indexOf(q)>=0||String(e.amt).indexOf(q)>=0})}
+  else src=monthAll(ui.month);
+  src=src.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
+  if(!src.length)return q?'<div class="card empty"><b>ვერაფერი მოიძებნა</b>სცადე სხვა სიტყვა.</div>':'<div class="card empty"><b>ამ თვეში ჩანაწერი არ არის</b>დააჭირე ლურჯ ღილაკს და დაამატე ხარჯი.</div>';
+  var h='';
+  if(q)h+='<div class="section"><div class="daytitle"><span>ნაპოვნია '+src.length+'</span><span class="num">'+money(sum(src.filter(function(e){return e.type!=='in'})))+'</span></div></div>';
   var groups={},order=[];
-  all.forEach(function(e){if(!groups[e.date]){groups[e.date]=[];order.push(e.date)}groups[e.date].push(e)});
+  src.forEach(function(e){if(!groups[e.date]){groups[e.date]=[];order.push(e.date)}groups[e.date].push(e)});
   order.forEach(function(d){
     var dsp=sum(groups[d].filter(function(e){return e.type!=='in'}));
     h+='<div class="section"><div class="daytitle"><span>'+dayLabel(d)+'</span><span class="num">'+(dsp?money(dsp):'')+'</span></div><div class="card">';
@@ -224,24 +417,154 @@ function vDays(){
         return;
       }
       var c=cat(e.cat);
-      h+='<button class="row" data-act="edit" data-id="'+e.id+'">'+badge(c)+'<span class="grow"><div class="t">'+esc(e.note||c.n)+'</div><div class="sub">'+c.n+'</div></span><span class="amt num">−'+money(e.amt)+'</span></button>';
+      h+='<button class="row'+(ui.flash===e.id?' flash':'')+'" data-act="edit" data-id="'+e.id+'">'+badge(c)+'<span class="grow"><div class="t">'+esc(e.note||c.n)+'</div><div class="sub">'+c.n+(e.recurId?' · განმეორებადი':'')+(e.back>0?' · '+money(e.amt)+' − '+money(e.back):'')+'</div></span><span class="amt num">−'+money(eff(e))+'</span></button>';
     });
     h+='</div></div>';
   });
   return h;
 }
+function vDays(){
+  var q=(ui.q||'').trim(),all=monthAll(ui.month),list=all.filter(function(e){return e.type!=='in'});
+  var open=!!ui.searchOpen||!!q;
+  var h='<div class="titlerow"><div class="titlegroup">'+monthNav()+'<button class="iconbtn" data-act="togglesearch" aria-label="ძებნა" aria-pressed="'+open+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></div></div>'+
+    (open?'<div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="ძებნა" value="'+esc(ui.q||'')+'" aria-label="ძებნა"></div>':'')+
+    '<div id="daycards"'+(q?' hidden':'')+'>'+banner()+backupBanner();
+  if(all.length){
+    var isCurM=ui.month===curMonth,dayV,dayK;
+    if(isCurM){dayV=sum(list.filter(function(e){return e.date===todayStr}));dayK='დღეს დახარჯული'}
+    else{var pp=ui.month.split('-'),dd=new Date(+pp[0],+pp[1],0).getDate();dayV=sum(list)/dd;dayK='საშუალოდ დღეში'}
+    h+='<div class="section" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'+
+      '<div class="card" style="padding:16px;min-width:0"><div style="font-size:13px;color:var(--muted)">'+dayK+'</div><div class="num" style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-count="'+dayV+'">'+money(dayV)+'</div></div>'+
+      '<div class="card" style="padding:16px;min-width:0"><div style="font-size:13px;color:var(--muted)">თვეში დახარჯული</div><div class="num" style="font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-count="'+sum(list)+'">'+money(sum(list))+'</div></div></div>';
+  }
+  return h+(ui.month===curMonth?dailyCard():'')+'</div><div id="dayslist">'+daysList()+'</div>';
+}
 
+function shortNum(v){return Math.round(v).toLocaleString('en-US').replace(/,/g,' ')}
+function segHtml(){
+  return '<div class="seg" role="tablist">'+[['out','ხარჯები'],['in','შემოსავალი']].map(function(x){return '<button data-act="sumview" data-v="'+x[0]+'" aria-pressed="'+((ui.sumView||'out')===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>';
+}
+function monthRange(){
+  var min=curMonth;
+  S.expenses.forEach(function(e){var m=e.date.slice(0,7);if(m<min)min=m});
+  var a=[],m=min;
+  while(m<=curMonth){a.push(m);m=shiftM(m,1)}
+  while(a.length<6)a.unshift(shiftM(a[0],-1));
+  if(a.length>36)a=a.slice(-36);
+  return a;
+}
+function barChart(items,color){
+  var step=56,bw=30,H=182,base=138,top=28,W=step*items.length,max=1,sel=-1;
+  items.forEach(function(x,i){if(x.v>max)max=x.v;if(x.m===ui.month)sel=i});
+  var s='<div class="chartscroll" data-sel="'+sel+'" data-step="'+step+'"><svg class="chart" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="თვეების დინამიკა"><line x1="0" y1="'+base+'" x2="'+W+'" y2="'+base+'" stroke="var(--line)" stroke-width="1"/>';
+  items.forEach(function(it,i){
+    var x=step*i+(step-bw)/2,h=it.v>0?Math.max(3,(base-top)*it.v/max):0,y=base-h,isel=it.m===ui.month,mo=it.m.slice(5);
+    s+='<g data-act="pickmonth" data-m="'+it.m+'" style="cursor:pointer"><rect x="'+(step*i)+'" y="0" width="'+step+'" height="'+H+'" fill="transparent"/>'+
+      (h?'<rect class="bar" x="'+x+'" y="'+y+'" width="'+bw+'" height="'+h+'" rx="7" fill="'+color+'" fill-opacity="'+(isel?1:.3)+'" style="animation-delay:'+(Math.min(i,8)*70)+'ms"/>':'')+
+      '<text x="'+(x+bw/2)+'" y="'+(y-7)+'" text-anchor="middle"'+(isel?' class="sel"':'')+'>'+(it.v>0?shortNum(it.v):'')+'</text>'+
+      '<text x="'+(x+bw/2)+'" y="'+(base+19)+'" text-anchor="middle"'+(isel?' class="sel"':'')+'>'+MONTHS[+mo-1].slice(0,3)+'</text>'+
+      ((mo==='01'||i===0)?'<text x="'+(x+bw/2)+'" y="'+(base+35)+'" text-anchor="middle">'+it.m.slice(0,4)+'</text>':'')+'</g>';
+  });
+  return s+'</svg></div>';
+}
+function incKeys(){
+  var t={};
+  S.expenses.forEach(function(e){if(e.type==='in'){var k=(e.note||'შემოსავალი').trim();t[k]=(t[k]||0)+e.amt}});
+  return Object.keys(t).sort(function(a,b){return t[b]-t[a]}).slice(0,10);
+}
+function incMatch(e){var s=ui.incSrc;return !s||s==='ALL'||((e.note||'შემოსავალი').trim()===s)}
+function incomeHtml(){
+  var keys=incKeys();
+  if(!keys.length){
+    return '<div class="card empty"><b>შემოსავალი ჯერ არ გაქვს ჩაწერილი</b>დააჭირე ლურჯ ღილაკს და ახალ ჩანაწერში აირჩიე კატეგორია „შემოსავალი“. აქ გამოჩნდება თვეების დინამიკა.</div>';
+  }
+  if(ui.incSrc===undefined){var ev=keys.filter(function(k){return /ევოლუშენ/i.test(k)})[0];ui.incSrc=ev||'ALL'}
+  if(ui.incSrc!=='ALL'&&keys.indexOf(ui.incSrc)<0)ui.incSrc='ALL';
+  var months=monthRange(),idx=months.indexOf(ui.month);
+  var vals=months.map(function(m){return {m:m,v:sum(monthInc(m).filter(incMatch))}});
+  var cur=idx>=0?vals[idx].v:0,prev=idx>0?vals[idx-1].v:0,dlt=cur-prev;
+  var nz=vals.filter(function(x){return x.v>0}),avg=nz.length?nz.reduce(function(t,x){return t+x.v},0)/nz.length:0,best=0;
+  vals.forEach(function(x){if(x.v>best)best=x.v});
+  var mi=monthInc(ui.month),totalCur=sum(mi),spent=sum(monthExp(ui.month));
+  var kept=totalCur>0?Math.round((totalCur-spent)/totalCur*100):null;
+  var entries=mi.filter(incMatch).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});
+  var chips='<button class="chip" data-act="incsrc" data-i="-1" aria-pressed="'+(ui.incSrc==='ALL')+'">ყველა</button>'+
+    keys.map(function(k,i){return '<button class="chip" data-act="incsrc" data-i="'+i+'" aria-pressed="'+(ui.incSrc===k)+'"><span class="qt">'+esc(k)+'</span></button>'}).join('');
+  var h='<div class="quick" style="padding:0 0 14px;margin:0">'+chips+'</div>';
+  h+='<div class="section"><div class="card"><div class="hero"><div class="k">შემოსავალი · '+mLabel(ui.month)+'</div><div class="big num" style="color:var(--good)" data-count="'+cur+'">'+money(cur)+'</div>'+
+    '<div class="sub">'+(prev>0?'წინა თვესთან '+(dlt>0?'+':dlt<0?'−':'')+money(Math.abs(dlt)):'წინა თვეში ამ წყაროდან შემოსავალი არ არის')+'</div></div>'+
+    '<div class="stats"><div><b class="num">'+money(Math.round(avg))+'</b><span>საშუალოდ თვეში</span></div><div><b class="num">'+money(best)+'</b><span>საუკეთესო თვე</span></div><div><b class="num">'+(kept===null?'—':kept+'%')+'</b><span>რჩება ხარჯის შემდეგ</span></div></div></div></div>';
+  h+='<div class="section"><h2>შემოსავლის დინამიკა · გადაფურცლე</h2><div class="card" style="padding:12px 0 8px">'+barChart(vals,'var(--good)')+'</div></div>';
+  var yr={};S.expenses.forEach(function(e){if(e.type==='in'&&incMatch(e)){var y=e.date.slice(0,4),o=yr[y]||(yr[y]={t:0,m:{}});o.t+=e.amt;o.m[e.date.slice(0,7)]=1}});
+  var ys=Object.keys(yr).sort().reverse();
+  if(ys.length){h+='<div class="section"><h2>წლიური ჯამი</h2><div class="card">';ys.forEach(function(y){var o=yr[y],n=Object.keys(o.m).length;h+='<div class="row"><span class="grow"><div class="t">'+y+(y===curMonth.slice(0,4)?' · მიმდინარე':'')+'</div><div class="sub num">'+n+' თვე · საშუალოდ '+money(Math.round(o.t/n))+' თვეში</div></span><span class="amt num" style="color:var(--good)">'+money(o.t)+'</span></div>'});h+='</div></div>'}
+  if(ui.incSrc==='ALL'&&mi.length){
+    var src={},order=[];
+    mi.forEach(function(e){var k=(e.note||'შემოსავალი').trim();if(!(k in src)){src[k]=0;order.push(k)}src[k]+=e.amt});
+    order.sort(function(a,b){return src[b]-src[a]});
+    if(order.length>1){
+      h+='<div class="section"><h2>წყაროები</h2><div class="card">';
+      order.forEach(function(k){var pc=totalCur?src[k]/totalCur*100:0;
+        h+='<div class="row" style="display:block"><div style="display:flex;gap:12px"><span class="grow t">'+esc(k)+'</span><span class="amt num">'+money(src[k])+'</span></div><div class="catbar"><i style="width:'+pc+'%;background:var(--good)"></i></div><div class="sub num" style="margin-top:4px">'+Math.round(pc)+'% შემოსავლიდან</div></div>';
+      });
+      h+='</div></div>';
+    }
+  }
+  if(entries.length){
+    h+='<div class="section"><h2>ჩანაწერები</h2><div class="card">';
+    entries.forEach(function(e){h+='<button class="row" data-act="edit" data-id="'+e.id+'"><span class="grow"><div class="t">'+esc(e.note||'შემოსავალი')+'</div><div class="sub">'+dayLabel(e.date)+'</div></span><span class="amt num" style="color:var(--good)">+'+money(e.amt)+'</span></button>'});
+    h+='</div></div>';
+  }
+  return h;
+}
+function dailyCard(){
+  var list=monthExp(curMonth),spent=sum(list),inc=sum(monthInc(curMonth)),est=false,dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(),h='';
+  if(!inc){
+    var rg=monthRange();
+    for(var ri=rg.length-2;ri>=0;ri--){var pi=sum(monthInc(rg[ri]));if(pi>0){inc=pi;est=true;break}}
+  }
+  if(!inc)return '';
+  var left=inc-spent;
+  {
+    var dl=dim-now.getDate()+1,dcat=ui.dailyCat&&(+S.budgets[ui.dailyCat]||0)>0?cat(ui.dailyCat):null;
+    var dList=list.filter(function(e){return !dcat||e.cat===dcat.id});
+    var dLeft=dcat?(+S.budgets[dcat.id]-sum(dList)):left;
+    var todaySp=sum(dList.filter(function(e){return e.date===todayStr})),allow=dl>0?Math.max(0,(dLeft+todaySp)/dl):0,rest=allow-todaySp;
+    var dchips='<button class="chip" data-act="dailycat" data-cat="" aria-pressed="'+!dcat+'">ყველა</button>';
+    CATS.forEach(function(c){if(c.id==='loan'||!(+S.budgets[c.id]>0))return;dchips+='<button class="chip" data-act="dailycat" data-cat="'+c.id+'" aria-pressed="'+(!!dcat&&dcat.id===c.id)+'">'+badge(c)+'<span class="qt">'+c.n+'</span></button>'});
+    var fsvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></svg>';
+    h+='<div class="section"><div class="card"><div class="hero" data-act="dailytoggle" style="padding:16px 16px 14px;cursor:pointer"><div class="k" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span>დღეს დარჩა'+(dcat?' · '+dcat.n:'')+' <span id="dc_chev" aria-hidden="true" style="display:inline-block;font-size:11px;transition:transform .3s;transform:rotate('+(ui.dailyOpen?180:0)+'deg)">▾</span></span><button class="iconbtn" data-act="dailyfilter" aria-label="კატეგორიის ფილტრი" aria-pressed="'+!!ui.dailyFilter+'" style="width:34px;height:34px;margin:-6px -6px 0 0">'+fsvg+'</button></div><div class="big num'+(rest<0?' neg':'')+'" style="font-size:34px;margin:2px 0 12px">'+money(rest)+'</div>'+
+      '<div class="track"><i style="width:'+(allow?Math.min(100,todaySp/allow*100):100)+'%;background:'+(rest<0?'var(--bad)':'var(--accent)')+'"></i></div>'+
+      '<div class="xp'+(ui.dailyOpen?' open':'')+'" id="dc_info"><div><div class="cap"><span class="num">დღეს დახარჯულია '+money(todaySp)+'</span><span class="num">'+(dLeft<=0?(dcat?'ლიმიტი ამოიწურა':'თვის თანხა ამოიწურა'):'დღიური ლიმიტი '+money(allow))+'</span></div>'+
+      '<div class="sub num" style="margin-top:6px">'+(dcat?'თვის ლიმიტიდან დარჩა ':'დარჩენილი ')+money(dLeft)+' · თვის ბოლომდე '+dl+' დღე'+(est&&!dcat?' · წინა თვის შემოსავლის მიხედვით':'')+'</div></div></div></div>'+
+      '<div class="xp'+(ui.dailyFilter?' open':'')+'" id="dc_cats"><div><div class="quick" style="padding:2px 16px 14px;margin:0">'+dchips+'</div></div></div></div></div>';
+  }
+  return h;
+}
 function vSum(){
-  var list=monthExp(ui.month),spent=sum(list),inc=(+S.income||0)+sum(monthInc(ui.month)),left=inc-spent,cc=byCat(list);
+  var list=monthExp(ui.month),spent=sum(list),inc=sum(monthInc(ui.month)),left=inc-spent,cc=byCat(list);
   var isCur=ui.month===curMonth,p=ui.month.split('-'),dim=new Date(+p[0],+p[1],0).getDate();
   var elapsed=isCur?now.getDate():(ui.month<curMonth?dim:0);
   var avg=elapsed?spent/elapsed:0,proj=isCur?avg*dim:spent;
-  var h='<h1>მიმოხილვა</h1>'+monthNav()+banner();
+  var h='<div class="titlerow"><div class="titlegroup">'+monthNav()+'</div></div>'+segHtml()+banner();
+  if(ui.sumView==='in')return h+incomeHtml();
   var seg='';CATS.forEach(function(c){if(cc[c.id]){seg+='<i style="width:'+(spent?cc[c.id]/spent*100:0)+'%;background:'+c.c+'"></i>'}});
-  h+='<div class="section"><div class="card"><div class="hero"><div class="k">დარჩენილი</div><div class="big num'+(left<0?' neg':'')+'">'+money(left)+'</div>'+
+  h+='<div class="section"><div class="card"><div class="hero"><div class="k">დარჩენილი</div><div class="big num'+(left<0?' neg':'')+'" data-count="'+left+'">'+money(left)+'</div>'+
     '<div class="track">'+(seg||'')+'</div><div class="cap"><span>დახარჯულია '+(inc?Math.round(spent/inc*100):0)+'%</span><span class="num">'+(inc?'შემოსავალი '+money(inc):'შემოსავალი არ არის მითითებული')+'</span></div></div>'+
     '<div class="stats"><div><b class="num">'+money(spent)+'</b><span>ხარჯი</span></div><div><b class="num">'+money(avg)+'</b><span>საშუალოდ დღეში</span></div><div><b class="num">'+money(proj)+'</b><span>'+(isCur?'თვის პროგნოზი':'სულ')+'</span></div></div></div></div>';
+  h+='<div class="section"><h2>ხარჯის დინამიკა · გადაფურცლე</h2><div class="card" style="padding:12px 0 8px">'+barChart(monthRange().map(function(m){return {m:m,v:sum(monthExp(m))}}),'var(--accent)')+'</div></div>';
   if(isCur&&inc&&proj>inc){h+='<div class="banner" style="background:color-mix(in srgb,var(--bad) 14%,var(--card))"><span class="grow">ამ ტემპით თვის ბოლოს '+money(proj-inc)+'-ით გადააჭარბებ შემოსავალს.</span></div>'}
+  var prevM=shiftM(ui.month,-1),pl=monthExp(prevM);
+  if(isCur)pl=pl.filter(function(e){return +e.date.slice(8,10)<=now.getDate()});
+  var pt=sum(pl),pcm=pt>0?byCat(pl):null;
+  if(pt>0){
+    var dlt=spent-pt,pc=byCat(pl),crow=[];
+    CATS.forEach(function(c){var d=(cc[c.id]||0)-(pc[c.id]||0);if(Math.abs(d)>=1)crow.push({c:c,d:d})});
+    crow.sort(function(a,b){return Math.abs(b.d)-Math.abs(a.d)});
+    h+='<div class="section"><h2>წინა თვესთან შედარება</h2><div class="card"><div class="row" style="display:block"><div class="num" style="font-size:28px;font-weight:700;letter-spacing:-.02em;color:'+(dlt>0?'var(--bad)':'var(--good)')+'">'+(dlt>0?'+':dlt<0?'−':'')+money(Math.abs(dlt))+'</div><div class="sub num">'+(isCur?'წინა თვის იმავე დღემდე':'წინა თვე')+' ('+money(pt)+') · '+(dlt>0?'მეტი':'ნაკლები')+' ხარჯი, '+Math.round(Math.abs(dlt)/pt*100)+'%</div></div>';
+    crow.slice(0,4).forEach(function(r){h+='<div class="row">'+badge(r.c)+'<span class="grow t">'+r.c.n+'</span><span class="amt num" style="color:'+(r.d>0?'var(--bad)':'var(--good)')+'">'+(r.d>0?'+':'−')+money(Math.abs(r.d))+'</span></div>'});
+    h+='</div></div>';
+  }
   h+='<div class="section"><h2>კატეგორიების მიხედვით</h2><div class="card">';
   var any=false;
   CATS.slice().sort(function(a,b){return (cc[b.id]||0)-(cc[a.id]||0)}).forEach(function(c){
@@ -249,43 +572,140 @@ function vSum(){
     var pct=lim?Math.min(100,v/lim*100):(spent?v/spent*100:0),over=lim&&v>lim;
     h+='<div class="row" style="align-items:stretch;flex-direction:column;gap:0"><div style="display:flex;align-items:center;gap:12px">'+badge(c)+'<span class="grow t">'+c.n+'</span>'+(over?'<span class="pill over">გადაჭარბება</span>':'')+'<span class="amt num">'+money(v)+'</span></div>'+
       '<div class="catbar"><i style="width:'+pct+'%;background:'+(over?'var(--bad)':c.c)+'"></i></div>'+
-      '<div class="sub num" style="margin-top:4px">'+(lim?'ლიმიტი '+money(lim)+' · '+(lim-v>=0?'დარჩა '+money(lim-v):'ზედმეტია '+money(v-lim)):Math.round(spent?v/spent*100:0)+'% ხარჯიდან')+'</div></div>';
+      '<div class="sub num" style="margin-top:4px">'+(lim?'ლიმიტი '+money(lim)+' · '+(lim-v>=0?'დარჩა '+money(lim-v):'ზედმეტია '+money(v-lim)):Math.round(spent?v/spent*100:0)+'% ხარჯიდან')+cmpTag(v,pcm?pcm[c.id]:0,!!pcm)+'</div></div>';
   });
   if(!any)h+='<div class="empty">მონაცემები ჯერ არ არის</div>';
   return h+'</div></div>';
 }
 
 function vPlan(){
-  var tb=totalBudget(),inc=+S.income||0,free=inc-tb;
-  var h='<h1>გეგმა</h1><div class="sub" style="margin:0 0 16px">ყოველთვიური შემოსავალი და ლიმიტები კატეგორიებზე.</div>'+banner();
-  h+='<div class="section"><h2>შემოსავალი</h2><div class="card"><div class="field"><label for="inc">თვიური შემოსავალი</label><input id="inc" data-bind="income" inputmode="decimal" placeholder="0" value="'+(S.income||'')+'"><span class="unit">₾</span></div></div></div>';
+  var lm=loanMonthTotal(),tb=totalBudget()+lm,inc=sum(monthInc(curMonth)),free=inc-tb;
+  var h='<div class="sub" style="margin:0 0 16px">თვიური ლიმიტები კატეგორიებზე. შემოსავალი ჩაწერე ხარჯის ფანჯარაში, კატეგორიაში „შემოსავალი“.</div>'+banner();
+  h+='<div class="section"><div class="card"><div class="hero" id="plansum" style="padding:16px 16px 14px">'+planSummary(inc)+'</div></div></div>';
   h+='<div class="section"><h2>ლიმიტები</h2><div class="card">';
   CATS.forEach(function(c){
-    h+='<div class="field">'+badge(c)+'<label for="b_'+c.id+'">'+c.n+'</label><input id="b_'+c.id+'" data-bind="b:'+c.id+'" inputmode="decimal" placeholder="0" value="'+(S.budgets[c.id]||'')+'"><span class="unit">₾</span></div>';
+    if(c.id==='loan')return;
+    h+='<label class="plrow" for="b_'+c.id+'">'+badge(c)+'<span class="grow">'+c.n+'</span><span class="pin"><input id="b_'+c.id+'" data-bind="b:'+c.id+'" inputmode="decimal" placeholder="0" value="'+(S.budgets[c.id]||'')+'"><span class="unit">₾</span></span></label>';
   });
-  h+='</div><div class="foot num" id="planfoot">'+planFoot(tb,free,inc)+'</div></div>';
-  h+='<div class="section"><h2>მონაცემები</h2><div class="card"><div class="stack"><div class="sub">მონაცემები ინახება მხოლოდ ამ ბრაუზერში. შეინახე ასლი, რომ არ დაკარგო.</div>'+
-    '<button class="btn plain" style="background:var(--fill)" data-act="export">ასლის გადაწერა</button>'+
-    '<textarea class="io" id="io" placeholder="აქ ჩასვი ადრე შენახული ასლი" aria-label="ასლი"></textarea>'+
-    '<button class="btn plain" style="background:var(--fill)" data-act="import">აღდგენა ასლიდან</button>'+
-    (ui.confirmClear?'<button class="btn danger" data-act="clearAll" style="color:#fff;background:var(--bad)">დარწმუნებული ხარ? წაიშლება ყველაფერი</button>':'<button class="btn danger" style="background:var(--fill)" data-act="clearAsk">ყველა მონაცემის წაშლა</button>')+
+  if(lm>0)h+='<div class="plrow">'+badge(cat('loan'))+'<span class="grow"><div>სესხები</div><div class="sub">ავტომატურად · სესხების ტაბიდან</div></span><span class="pin auto num">'+money(lm)+'</span></div>';
+  h+='</div></div>';
+  h+='<div class="section"><h2>განმეორებადი ხარჯები</h2><div class="card">'+(S.recurring||[]).map(function(r){var c=cat(r.cat);return '<button class="row" data-act="editRecur" data-id="'+r.id+'">'+badge(c)+'<span class="grow"><div class="t">'+esc(r.note||c.n)+'</div><div class="sub">ყოველთვიურად · '+r.day+' რიცხვში</div></span><span class="amt num">'+money(r.amt)+'</span></button>'}).join('')+'<button class="row" data-act="newRecur" style="color:var(--accent)">+ დამატება</button></div><div class="foot">ქირა, გამოწერები და სხვა ყოველთვიური ხარჯი ავტომატურად ემატება ხარჯებში.</div></div>';
+  h+='<div class="section"><h2>ბანკის ამონაწერი</h2><div class="card"><div class="stack"><div class="sub">ატვირთე Bank of Georgia-ს ამონაწერი (Excel). ფაილი მხოლოდ შენს ტელეფონში მუშავდება და არსად იგზავნება.</div>'+
+    '<label class="btn" style="cursor:pointer">ამონაწერის ატვირთვა<input id="bankfile" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" style="position:absolute;opacity:0;width:0;height:0"></label></div></div></div>';
+  h+='<div class="section"><h2>მონაცემები</h2><div class="card"><div class="stack"><div class="sub">მონაცემები ინახება მხოლოდ ამ ბრაუზერში. '+backupAge()+'</div>'+
+    '<button class="btn plain" style="background:var(--fill)" data-act="exportfile">ინფორმაციის გადმოწერა</button>'+
+    '<label class="btn plain" style="background:var(--fill);cursor:pointer">აღდგენა<input id="importfile" type="file" accept=".json,application/json,text/plain" style="position:absolute;opacity:0;width:0;height:0"></label>'+
     '</div></div></div>';
   return h;
 }
-function planFoot(tb,free,inc){
-  if(!inc)return 'ჩაწერე შემოსავალი, რომ ნახო რამდენი რჩება გაუნაწილებელი.';
-  return 'დაგეგმილია '+money(tb)+' · '+(free>=0?'გაუნაწილებელია '+money(free):'ლიმიტები შემოსავალს აღემატება '+money(-free)+'-ით');
+function planSummary(inc){
+  var lm=loanMonthTotal(),tb=totalBudget()+lm,free=inc-tb,den=Math.max(inc,tb),segs='';
+  if(den>0)CATS.forEach(function(c){var v=c.id==='loan'?lm:(+S.budgets[c.id]||0);if(v>0)segs+='<i style="flex:0 0 '+(v/den*100)+'%;background:'+c.c+'"></i>'});
+  var over=inc>0&&free<0;
+  return '<div class="k">'+(!inc?'დაგეგმილია':over?'ლიმიტები აღემატება შემოსავალს':'გაუნაწილებელია')+'</div><div class="big num'+(over?' neg':'')+'" style="font-size:40px;margin:2px 0 14px">'+money(!inc?tb:Math.abs(free))+'</div><div class="pbar">'+segs+'</div><div class="cap" style="margin-top:10px">'+(inc?'<span class="num">დაგეგმილია '+money(tb)+'</span><span class="num">შემოსავალი '+money(inc)+'</span>':'<span>შემოსავალი ამ თვეში ჯერ არ გაქვს ჩაწერილი</span>')+'</div>';
 }
-
+function loanById(id){return (S.loans||[]).filter(function(x){return x.id===id})[0]}
+function loanStats(l){
+  var rep=S.expenses.filter(function(e){return e.loanId===l.id}).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});
+  var paid=sum(rep),rem=Math.max(0,l.total-paid),monthly=l.total/(l.months||1);
+  var paidM=sum(rep.filter(function(e){return e.date.slice(0,7)===curMonth}));
+  return {rep:rep,paid:paid,rem:rem,monthly:monthly,due:Math.max(0,Math.min(rem,monthly-paidM)),pct:l.total?Math.min(100,paid/l.total*100):0};
+}
+function vLoans(){
+  var loans=S.loans||[];
+  var h='<div class="sub" style="margin:0 0 16px">დანაზოგიდან აღებული თანხა და მისი დაბრუნება.</div>'+banner();
+  var newBtn='<button class="btn plain" data-act="newLoan" style="box-shadow:var(--shadow)">+ ახალი სესხი</button>';
+  if(!loans.length)return h+'<div class="card empty"><b>სესხი ჯერ არ გაქვს</b>დაამატე აღებული თანხა და ჩარიცხვები ავტომატურად გამოჩნდება ხარჯებში.</div><div style="height:16px"></div>'+newBtn;
+  var totAll=0,totPaid=0,totRem=0,totMonthly=0,totDue=0;
+  var sts=loans.map(function(l){var st=loanStats(l);totAll+=l.total;totPaid+=st.paid;totRem+=st.rem;if(st.rem>0){totMonthly+=st.monthly;totDue+=st.due}return st});
+  h+='<div class="section"><div class="card"><div class="hero"><div class="k">დასაბრუნებელია</div><div class="big num" data-count="'+totRem+'">'+money(totRem)+'</div><div class="track"><i style="width:'+(totAll?Math.min(100,totPaid/totAll*100):0)+'%;background:var(--good)"></i></div><div class="cap"><span class="num">დაბრუნებულია '+money(totPaid)+'</span><span class="num">სულ '+money(totAll)+'</span></div></div>'+(totRem>0?'<div class="stats" style="grid-template-columns:1fr"><div><b class="num">'+money(totDue)+'</b><span>ამ თვეში დარჩა გადასახდელი</span></div></div>':'')+'</div></div>';
+  loans.forEach(function(l,i){
+    var st=sts[i],done=st.rem<=0;
+    h+='<div class="section"><div class="card">'+
+      '<button class="row" data-act="editLoan" data-id="'+l.id+'">'+badge(cat('loan'))+'<span class="grow"><div class="t">'+esc(l.name)+'</div><div class="sub num">'+money(l.total)+' · '+l.months+' თვე</div></span>'+(done?'<span class="pill good">დაბრუნებულია</span>':'<span class="pill num">'+money(st.monthly)+' / თვე</span>')+'</button>'+
+      '<div class="row" style="display:block"><div class="track"><i style="width:'+st.pct+'%;background:var(--good)"></i></div>'+
+      '<div style="display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);margin-top:8px"><span class="num">დაბრუნებულია '+money(st.paid)+'</span><span class="num">დარჩა '+money(st.rem)+'</span></div>'+
+      (done?'':'<div class="sub num" style="margin-top:4px">'+(st.due>0?'ამ თვეში გადასახდელია '+money(st.due):'ამ თვის ნორმა შესრულებულია')+'</div>')+'</div>';
+    st.rep.slice(0,3).forEach(function(e){
+      h+='<button class="row" data-act="edit" data-id="'+e.id+'" style="min-height:40px"><span class="grow sub">'+dayLabel(e.date)+'</span><span class="amt num" style="color:var(--good)">'+money(e.amt)+'</span></button>';
+    });
+    h+=(done?'':'<div class="stack" style="padding:10px 16px 14px"><button class="btn" data-act="repay" data-id="'+l.id+'">ჩარიცხვა</button></div>')+'</div></div>';
+  });
+  return h+newBtn;
+}
+function lsHtml(){
+  var s=ui.ls,top='<div class="scrim'+(s.fresh?' enter':'')+'" data-act="closeSheet"><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>';
+  if(s.kind==='repay'){
+    var L=loanById(s.loanId),st=loanStats(L);
+    return top+'<div class="sheethead"><button data-act="closeSheet">გაუქმება</button><b>სესხის ჩარიცხვა</b><button data-act="saveRepay" style="font-weight:600">შენახვა</button></div>'+
+      '<div class="sub" style="text-align:center">'+esc(L.name)+' · დარჩენილია '+money(st.rem)+'</div>'+
+      '<div class="amount"><input id="r_amt" inputmode="decimal" placeholder="0" value="'+(s.amt||'')+'" aria-label="თანხა"><span>₾</span></div>'+
+      '<div class="section"><div class="card"><div class="field"><label for="r_date">თარიღი</label><input id="r_date" type="date" value="'+s.date+'" max="'+todayStr+'" style="width:auto"></div></div><div class="foot">ჩარიცხვა ავტომატურად გამოჩნდება ხარჯებში, კატეგორიაში „სესხის დაბრუნება“.</div></div></div></div>';
+  }
+  if(s.kind==='bank')return bankSheet(s,top);
+  if(s.kind==='month'){
+    var minY=+monthRange()[0].slice(0,4),curY=now.getFullYear(),yy=s.year,has={};
+    S.expenses.forEach(function(e){has[e.date.slice(0,7)]=1});
+    var grid=MONTHS.map(function(mn,i){
+      var ym=yy+'-'+pad(i+1),dis=ym>curMonth,sel=ym===ui.month;
+      return '<button class="mcell'+(sel?' sel':'')+'" data-act="pickym" data-ym="'+ym+'"'+(dis?' disabled':'')+'>'+mn.slice(0,3)+(has[ym]?'<i></i>':'')+'</button>';
+    }).join('');
+    return '<div class="scrim'+(s.fresh?' enter':'')+'" data-act="closeSheet"><div class="sheet compact" role="dialog" aria-modal="true" aria-label="თვის არჩევა"><div class="grab"></div>'+
+      '<div class="sheethead"><button data-act="closeSheet">დახურვა</button><b>თვის არჩევა</b><button data-act="thismonth" style="font-weight:600">დღეს</button></div>'+
+      '<div class="yearrow"><button data-act="myear" data-d="-1"'+(yy<=minY?' disabled':'')+' aria-label="წინა წელი">‹</button><b class="num">'+yy+'</b><button data-act="myear" data-d="1"'+(yy>=curY?' disabled':'')+' aria-label="შემდეგი წელი">›</button></div>'+
+      '<div class="mgrid">'+grid+'</div></div></div>';
+  }
+  if(s.kind==='recur'){
+    var rl=s.l,rchips=CATS.filter(function(c){return c.id!=='loan'}).map(function(c){return '<button class="chip" data-act="rcpick" data-cat="'+c.id+'" aria-pressed="'+(rl.cat===c.id)+'">'+badge(c)+c.n+'</button>'}).join('');
+    return top+'<div class="sheethead"><button data-act="closeSheet">გაუქმება</button><b>'+(s.editing?'განმეორებადი ხარჯი':'ახალი განმეორებადი')+'</b><button data-act="saveRecur" style="font-weight:600">შენახვა</button></div>'+
+      '<div class="amount"><input id="rc_amt" inputmode="decimal" placeholder="0" value="'+(rl.amt||'')+'" aria-label="თანხა"><span>₾</span></div>'+
+      '<div class="section"><div class="card"><div class="chips">'+rchips+'</div></div></div>'+
+      '<div class="section"><div class="card"><div class="field"><label for="rc_note">აღწერა</label><input id="rc_note" maxlength="40" placeholder="მაგ. ქირა" value="'+esc(rl.note||'')+'" style="width:200px"></div>'+
+      '<div class="field"><label for="rc_day">თვის რიცხვი</label><input id="rc_day" inputmode="numeric" placeholder="1" value="'+(rl.day||'')+'" style="width:70px"></div></div><div class="foot">ხარჯი ყოველ თვეს ამ რიცხვში ავტომატურად დაემატება.</div></div>'+
+      (s.editing?(s.confirmDel?'<button class="btn danger" style="color:#fff;background:var(--bad)" data-act="delRecur">დადასტურება: წაშლა</button><div class="sub" style="text-align:center;margin-top:8px">უკვე დამატებული ხარჯები დარჩება.</div>':'<button class="btn danger" data-act="delRecurAsk">წაშლა</button>'):'')+
+      '</div></div>';
+  }
+  var l=s.l;
+  return top+'<div class="sheethead"><button data-act="closeSheet">გაუქმება</button><b>'+(s.editing?'სესხის შეცვლა':'ახალი სესხი')+'</b><button data-act="saveLoan" style="font-weight:600">შენახვა</button></div>'+
+    '<div class="section"><div class="card"><div class="field"><label for="l_name">სახელი</label><input id="l_name" maxlength="40" placeholder="მაგ. დანაზოგიდან" value="'+esc(l.name)+'" style="width:200px"></div>'+
+    '<div class="field"><label for="l_total">თანხა</label><input id="l_total" inputmode="decimal" placeholder="0" value="'+(l.total||'')+'"><span class="unit">₾</span></div>'+
+    '<div class="field"><label for="l_months">დაბრუნების ვადა</label><input id="l_months" inputmode="numeric" placeholder="3" value="'+(l.months||'')+'" style="width:70px"><span class="unit">თვე</span></div></div></div>'+
+    (s.editing?(s.confirmDel?'<button class="btn danger" style="color:#fff;background:var(--bad)" data-act="delLoan">დადასტურება: წაშლა</button><div class="sub" style="text-align:center;margin-top:8px">ხარჯებში ჩარიცხვები დარჩება.</div>':'<button class="btn danger" data-act="delLoanAsk">სესხის წაშლა</button>'):'')+
+    '</div></div>';
+}
+function readLs(){
+  var s=ui.ls,a=document.getElementById('l_name'),b=document.getElementById('r_amt');
+  if(s.kind==='recur'){var ra=document.getElementById('rc_amt');if(ra){s.l.amt=ra.value;s.l.note=document.getElementById('rc_note').value;s.l.day=document.getElementById('rc_day').value}return}
+  if(s.kind==='loan'&&a){s.l.name=a.value;s.l.total=document.getElementById('l_total').value;s.l.months=document.getElementById('l_months').value}
+  else if(s.kind==='repay'&&b){s.amt=b.value;s.date=document.getElementById('r_date').value||s.date}
+}
 function render(){
-  var v=ui.tab==='days'?vDays():ui.tab==='sum'?vSum():vPlan();
-  document.getElementById('app').innerHTML=v;
-  document.getElementById('tabs').innerHTML=TABS.map(function(t){
+  var v=ui.tab==='days'?vDays():ui.tab==='sum'?vSum():ui.tab==='loans'?vLoans():vPlan();
+  var app=document.getElementById('app');
+  app.innerHTML=v;app.className='';
+  if(ui.tab==='days'&&(ui.q||'').trim()){var mn0=app.querySelector('.monthpill');if(mn0)mn0.hidden=true}
+  if(ui.anim){
+    var kids=app.children;for(var k=0;k<kids.length;k++)kids[k].style.setProperty('--i',k);
+    app.className='a-'+ui.anim;
+    var els=app.querySelectorAll('[data-count]');for(k=0;k<els.length;k++)countUp(els[k]);
+    ui.anim=null;
+  }
+  var chs=app.querySelector('.chartscroll');
+  if(chs){
+    var cst=+chs.dataset.step,csi=+chs.dataset.sel;
+    if(ui.chartScroll!==undefined)chs.scrollLeft=ui.chartScroll;
+    else if(csi>=0)chs.scrollLeft=Math.max(0,csi*cst+cst/2-chs.clientWidth/2);
+    else chs.scrollLeft=chs.scrollWidth;
+  }
+  if(lastTab!==ui.tab)document.getElementById('tabs').innerHTML=TABS.map(function(t){
     return '<button class="tab" role="tab" aria-selected="'+(ui.tab===t.id)+'" data-tab="'+t.id+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+t.i+'</svg>'+t.n+'</button>';
   }).join('');
-  document.getElementById('fab').hidden=ui.tab==='plan';
+  lastTab=ui.tab;
+  document.getElementById('fab').hidden=ui.tab==='plan'||ui.tab==='loans';
   var m=document.getElementById('modal');
-  m.innerHTML=ui.sheet?sheetHtml():'';
+  m.innerHTML=ui.sheet?sheetHtml():(ui.ls?lsHtml():'');
+  if(ui.sheet)ui.sheet.fresh=false;
+  if(ui.ls){ui.ls.fresh=false;if(ui.ls.focus){ui.ls.focus=false;var lfi=document.querySelector('#modal input');if(lfi)try{lfi.focus()}catch(e){}}}
   var fresh=document.querySelector('#modal .amount input');
   if(fresh&&ui.sheet&&ui.sheet.focus){ui.sheet.focus=false;try{fresh.focus()}catch(e){}}
   if(ui.sheet&&ui.sheet.focusCat){ui.sheet.focusCat=false;var nci=document.getElementById('f_newcat');if(nci)try{nci.focus()}catch(e){}}
@@ -295,41 +715,219 @@ function render(){
 
 function sheetHtml(){
   var s=ui.sheet,e=s.e;
+  var incChip='<button class="chip" data-act="pick" data-cat="income" aria-pressed="'+(e.type==='in')+'"><span class="ic" style="background:var(--good)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg></span>შემოსავალი</button>';
   var newBtn='<button class="chip" data-act="newcat" style="color:var(--accent)">+ ახალი კატეგორია</button>';
   var addField=s.adding?'<div class="field"><input id="f_newcat" maxlength="30" placeholder="კატეგორიის სახელი" style="text-align:left;width:auto;flex:1" aria-label="ახალი კატეგორია"><button data-act="addcat" style="color:var(--accent);font-weight:600;padding:6px 0">დამატება</button></div>':'';
-  var chips=CATS.map(function(c){return '<button class="chip" data-act="pick" data-cat="'+c.id+'" aria-pressed="'+(e.cat===c.id)+'">'+badge(c)+''+c.n+'</button>'}).join('');
-  return '<div class="scrim" data-act="closeSheet"><div class="sheet" role="dialog" aria-modal="true" aria-label="ხარჯი"><div class="grab"></div>'+
+  var chips=CATS.filter(function(c){return c.id!=='loan'}).map(function(c){return '<button class="chip" data-act="pick" data-cat="'+c.id+'" aria-pressed="'+(e.type!=='in'&&e.cat===c.id)+'">'+badge(c)+''+c.n+'</button>'}).join('');
+  return '<div class="scrim'+(s.fresh?' enter':'')+'" data-act="closeSheet"><div class="sheet" role="dialog" aria-modal="true" aria-label="ხარჯი"><div class="grab"></div>'+
    '<div class="sheethead"><button data-act="closeSheet">გაუქმება</button><b>'+(s.editing?'ხარჯის შეცვლა':'ახალი ხარჯი')+'</b><button data-act="saveSheet" style="font-weight:600">შენახვა</button></div>'+
    '<div class="amount"><input id="f_amt" inputmode="decimal" placeholder="0" value="'+(e.amt||'')+'" aria-label="თანხა" style="'+(e.type==='in'?'color:var(--good)':'')+'"><span>₾</span></div>'+
-   (e.type==='in'?'':'<div class="section"><div class="card"><div class="chips">'+chips+newBtn+'</div>'+addField+'</div></div>')+
-   '<div class="section"><div class="card"><div class="field"><label for="f_note">აღწერა</label><input id="f_note" placeholder="არასავალდებულო" value="'+esc(e.note||'')+'" style="width:200px"></div>'+
-   '<div class="field"><label for="f_date">თარიღი</label><input id="f_date" type="date" value="'+e.date+'" max="'+todayStr+'" style="width:auto"></div></div></div>'+
+   quickHtml(s)+
+   (e.loanId?'':'<div class="section"><div class="card"><div class="chips">'+incChip+chips+newBtn+'</div>'+addField+'</div></div>')+
+   '<div class="section"><div class="card"><div class="field"><label for="f_note">აღწერა</label><input id="f_note" placeholder="არასავალდებულო" value="'+esc(e.note||'')+'" style="width:200px" list="noteopts" autocomplete="off"><datalist id="noteopts">'+noteOpts()+'</datalist></div>'+
+   '<div class="field"><label for="f_date">თარიღი</label><input id="f_date" type="date" value="'+e.date+'" max="'+todayStr+'" style="width:auto"></div>'+
+    ((e.type==='in'||e.loanId)?'':'<div class="field"><label for="f_back">დამიბრუნეს ₾</label><input id="f_back" inputmode="decimal" placeholder="0" value="'+(e.back||'')+'" style="width:90px" aria-label="მეგობრებმა დაგიბრუნეს"></div>')+'</div>'+((e.type==='in'||e.loanId)?'':'<div class="foot num" id="f_net" style="padding:0 20px 12px">'+netHint(e.amt,e.back)+'</div>')+'</div>'+
    (s.editing?(ui.confirmDel?'<button class="btn danger" style="color:#fff;background:var(--bad)" data-act="delete">დადასტურება: წაშლა</button>':'<button class="btn danger" data-act="delAsk">ხარჯის წაშლა</button>'):'')+
    '</div></div>';
 }
+function netHint(a,b){var A=num(a)||0,B=num(b)||0;return B>0&&A>0?'რეალურად დახარჯულია '+money(Math.max(0,A-Math.min(B,A))):'ნაწილი თუ დაგიბრუნეს, ჩაწერე — დანარჩენი ჩაითვლება ხარჯად'}
 function openSheet(id){
   ui.confirmDel=false;
-  if(id){var x=S.expenses.filter(function(q){return q.id===id})[0];if(!x)return;ui.sheet={editing:true,focus:false,e:{id:x.id,amt:x.amt,cat:x.cat,note:x.note,date:x.date,type:x.type||'out'}}}
-  else{var d=ui.month===curMonth?todayStr:ui.month+'-01';ui.sheet={editing:false,focus:true,e:{amt:'',cat:'food',note:'',date:d,type:'out'}}}
+  if(id){var x=S.expenses.filter(function(q){return q.id===id})[0];if(!x)return;ui.sheet={editing:true,focus:false,fresh:true,e:{id:x.id,amt:x.amt,back:x.back||'',cat:x.cat,note:x.note,date:x.date,type:x.type||'out',loanId:x.loanId}}}
+  else{var d=ui.month===curMonth?todayStr:ui.month+'-01';ui.sheet={editing:false,focus:true,fresh:true,e:{amt:'',back:'',cat:'food',note:'',date:d,type:'out'}}}
   render();
 }
 function readSheet(){
   var e=ui.sheet.e,a=document.getElementById('f_amt');
-  if(a){e.amt=a.value;e.note=document.getElementById('f_note').value;e.date=document.getElementById('f_date').value||e.date}
+  if(a){e.amt=a.value;e.note=document.getElementById('f_note').value;e.date=document.getElementById('f_date').value||e.date;var fb=document.getElementById('f_back');if(fb)e.back=fb.value}
+}
+var BANK_LIB='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+var BGROUPS=[
+  ['card','ბარათით გადახდები',true],
+  ['pay','ბანკში გადახდები და საკომისიო',true],
+  ['cash','განაღდება',true],
+  ['xfer','გადარიცხვები სხვებზე',true],
+  ['in_co','ჩარიცხვები კომპანიებიდან',true],
+  ['in_pp','ჩარიცხვები ფიზიკური პირებისგან',true],
+  ['refund','თანხის დაბრუნებები',false],
+  ['self','საკუთარ ანგარიშებს შორის',false],
+  ['fx','ვალუტის გაცვლა',false]
+];
+function loadXlsx(ok,fail){
+  if(window.XLSX){ok();return}
+  var s=document.createElement('script');s.src=BANK_LIB;s.onload=ok;s.onerror=fail;document.head.appendChild(s);
+}
+function mccCat(c){
+  c=+c;
+  if(c===4215||c===5411||c===5499||c===5441||c===5422||c===5451||c===5462||(c>=5811&&c<=5814)||c===5921)return 'food';
+  if(c===4111||c===4112||c===4121||c===4131||c===4789||c===5541||c===5542||c===7523||c===7512||c===7519)return 'transport';
+  if(c===4814||c===4816||c===4899||c===4900)return 'home';
+  if(c===5912||c===5122||c===5047||c===5975||c===5976||(c>=8011&&c<=8099))return 'health';
+  if(c===7832||c===7922||c===7929||c===7941||(c>=7991&&c<=7999)||c===4722||c===7011||c===4511)return 'fun';
+  if((c>=5600&&c<=5699)||c===5311||c===5732||c===5734||c===5735||c===5942||c===5943||c===5944||c===5945||c===5947||c===5948||c===5970||c===5977||c===5992||c===5999||c===5039||c===5200||c===5211||c===5231||c===5712||c===5719||c===5722)return 'shop';
+  return 'other';
+}
+function bankClassify(d,amt,owner){
+  var head=d.split(' - ')[0].trim();
+  if(amt<0){
+    if(head==='გადახდა'){
+      if(/ვალუტის გაცვლითი|კონვერტაცია/.test(d))return {g:'fx',cat:'other',note:'ვალუტის გაცვლა'};
+      var mc=(d.match(/MCC:(\d+)/)||[])[1];
+      if(mc){var mm=(d.match(/ობიექტი:\s*([^,;]+)/)||[])[1];return {g:'card',cat:mccCat(mc),note:(mm||'ბარათით გადახდა').trim()}}
+      if(/საკომისიო/.test(d))return {g:'pay',cat:'other',note:'საკომისიო'};
+      var pn=(d.match(/;\s*გადახდა,\s*[\d\/ ]+,\s*([^,]+)/)||[])[1];
+      return {g:'pay',cat:/ინტერნეტ|ტელეფ|მობილ|კომუნ|წყალ|გაზ|ელექტრ|მაგთ|სილქნეტ|ენერგო|ნაგავ|ქსელ/i.test(d)?'home':'other',note:(pn||'გადახდა').trim()};
+    }
+    if(head==='განაღდება')return {g:'cash',cat:'other',note:'განაღდება'};
+    if(head==='საკომისიოს გადახდა')return {g:'pay',cat:'other',note:'საკომისიო'};
+    if(head==='გადარიცხვა'){
+      var rc=((d.match(/მიმღები:\s*([^;]+)/)||[])[1]||'').trim();
+      if(owner&&rc===owner)return {g:'self',cat:'other',note:'საკუთარ ანგარიშზე'};
+      return {g:'xfer',cat:'other',note:'გადარიცხვა'+(rc?': '+rc:'')};
+    }
+    return {g:'pay',cat:'other',note:head.slice(0,40)};
+  }
+  if(/დაბრუნება/.test(d))return {g:'refund',note:'თანხის დაბრუნება'};
+  var sn=((d.match(/გადმომრიცხავი:\s*([^;]+)/)||[])[1]||'').trim();
+  if(owner&&sn===owner)return {g:'self',note:'საკუთარი ანგარიშიდან'};
+  if(/^(შპს|სს|ი\/მ|შპს\.)/.test(sn))return {g:'in_co',note:sn};
+  return {g:'in_pp',note:sn||'ჩარიცხვა'};
+}
+function parseStatement(wb){
+  var owner='',rows=null;
+  wb.SheetNames.forEach(function(n){
+    var r=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null}),found=false;
+    for(var i=0;i<Math.min(r.length,6);i++){var x=r[i]||[];if(String(x[0]||'').trim()==='თარიღი'&&String(x[1]||'').trim()==='დანიშნულება'){found=true;break}}
+    if(found){rows=r;return}
+    r.forEach(function(x){if(x&&String(x[0]||'').indexOf('ანგარიშის მფლობელი')===0)owner=String(x[2]||'').trim()});
+  });
+  if(!rows)return null;
+  var have={};S.expenses.forEach(function(e){if(e.bid)have[e.bid]=1});
+  var seen={},items=[],from='9999',to='0000';
+  rows.forEach(function(r){
+    if(!r)return;
+    var a=String(r[0]||'').trim(),m=a.match(/^(\d\d)\/(\d\d)\/(\d{4})$/);
+    if(!m||r[3]===null||r[3]===undefined||r[3]==='')return;
+    var amt=parseFloat(r[3]);if(!amt)return;
+    var d=String(r[1]||''),date=m[3]+'-'+m[2]+'-'+m[1];
+    var t=d.match(/თარიღი:\s*(\d\d)\/(\d\d)\/(\d{4})/);if(t)date=t[3]+'-'+t[2]+'-'+t[1];
+    var c=bankClassify(d,amt,owner),base=date+'|'+amt+'|'+d.replace(/\s+/g,' ').slice(0,140);
+    seen[base]=(seen[base]||0)+1;var bid=base+'|'+seen[base];
+    items.push({bid:bid,date:date,amt:Math.abs(amt),kind:amt<0?'out':'in',cat:c.cat||'other',note:c.note,g:c.g,dup:!!have[bid]});
+    if(date<from)from=date;if(date>to)to=date;
+  });
+  return {items:items,owner:owner,from:from,to:to};
+}
+function fmtD(d){var p=d.split('-');return (+p[2])+' '+MONTHS[+p[1]-1].slice(0,3)+'. '+p[0]}
+function bankSheet(s,top){
+  var live=s.items.filter(function(x){return !x.dup}),dups=s.items.length-live.length;
+  var gs=BGROUPS.map(function(g){
+    var its=live.filter(function(x){return x.g===g[0]});if(!its.length)return '';
+    var tot=0;its.forEach(function(x){tot+=x.amt});
+    return '<div class="field"><span class="grow"><div class="t">'+g[1]+'</div><div class="sub num">'+its.length+' ჩანაწერი · '+money(tot)+'</div></span><input class="sw" type="checkbox" data-grp="'+g[0]+'"'+(s.on[g[0]]?' checked':'')+' aria-label="'+g[1]+'"></div>';
+  }).join('');
+  var sel=live.filter(function(x){return s.on[x.g]}),oc={},oSum=0,iSum=0,oN=0,iN=0;
+  sel.forEach(function(x){if(x.kind==='in'){iSum+=x.amt;iN++}else{oSum+=x.amt;oN++;oc[x.cat]=(oc[x.cat]||0)+x.amt}});
+  var crows=CATS.filter(function(c){return oc[c.id]>0}).sort(function(a,b){return oc[b.id]-oc[a.id]}).map(function(c){return '<div class="row">'+badge(c)+'<span class="grow t">'+c.n+'</span><span class="amt num">'+money(oc[c.id])+'</span></div>'}).join('');
+  return top+'<div class="sheethead"><button data-act="closeSheet">გაუქმება</button><b>ბანკის ამონაწერი</b><span style="width:64px"></span></div>'+
+    '<div class="sub num" style="text-align:center;margin:-4px 0 14px">'+fmtD(s.from)+' – '+fmtD(s.to)+' · '+s.items.length+' ჩანაწერი'+(dups?' · '+dups+' უკვე დამატებულია':'')+'</div>'+
+    '<div class="section"><h2>რა დაემატოს</h2><div class="card">'+gs+'</div></div>'+
+    (crows?'<div class="section"><h2>ხარჯი კატეგორიების მიხედვით</h2><div class="card">'+crows+'</div></div>':'')+
+    '<button class="btn" data-act="bankimport"'+(sel.length?'':' disabled style="opacity:.4"')+'>დამატება · '+oN+' ხარჯი, '+iN+' შემოსავალი</button>'+
+    '<div class="sub num" style="text-align:center;margin-top:10px">ხარჯი '+money(oSum)+' · შემოსავალი '+money(iSum)+'</div></div></div>';
+}
+function doImport(text){
+  try{
+    var o=JSON.parse(text);if(!o||!Array.isArray(o.expenses))throw 0;
+    o.demo=false;S=o;syncCustom();S.created=S.created||Date.now();applyRecurring();save();render();toast('აღდგენილია');
+  }catch(e){toast('ასლი ვერ წაიკითხა')}
 }
 function toast(t){ui.toast=t;render();setTimeout(function(){ui.toast=null;var b=document.getElementById('toastbox');if(b)b.remove()},1800)}
 function num(v){return parseFloat(String(v).replace(/\s/g,'').replace(',','.'))}
 
+document.addEventListener('input',function(ev){var id=ev.target.id;if(id==='f_amt'||id==='f_back'){var n=document.getElementById('f_net');if(n)n.textContent=netHint(document.getElementById('f_amt').value,(document.getElementById('f_back')||{}).value)}});
 document.addEventListener('click',function(ev){
   var t=ev.target.closest('[data-act],[data-tab]');if(!t)return;
-  if(t.dataset.tab){ui.tab=t.dataset.tab;ui.confirmClear=false;render();window.scrollTo(0,0);return}
+  if(t.dataset.tab){if(ui.tab!==t.dataset.tab){ui.anim='tab';ui.chartScroll=undefined}ui.tab=t.dataset.tab;ui.confirmClear=false;render();window.scrollTo(0,0);return}
   var a=t.dataset.act;
-  if(a==='closeSheet'){if(t.classList.contains('scrim')&&ev.target!==t)return;ui.sheet=null;render();return}
-  if(a==='prev'){ui.month=shiftM(ui.month,-1);render()}
-  else if(a==='next'){if(ui.month<curMonth){ui.month=shiftM(ui.month,1);render()}}
-  else if(a==='edit'){openSheet(t.dataset.id)}
-  else if(a==='pick'){readSheet();ui.sheet.e.cat=t.dataset.cat;render()}
+  if(a==='closeSheet'){if(t.classList.contains('scrim')&&ev.target!==t)return;
+    ui.sheet=null;ui.ls=null;render();
+    return}
+  if(a==='prev'){ui.chartScroll=undefined;ui.month=shiftM(ui.month,-1);render()}
+  else if(a==='next'){if(ui.month<curMonth){ui.chartScroll=undefined;ui.month=shiftM(ui.month,1);render()}}
+  else if(a==='edit'){
+    openSheet(t.dataset.id);
+  }
+  else if(a==='pick'){readSheet();var pk=t.dataset.cat;ui.sheet.e.type=pk==='income'?'in':'out';ui.sheet.e.cat=pk;render()}
   else if(a==='type'){readSheet();ui.sheet.e.type=t.dataset.type;render()}
+  else if(a==='monthpicker'){ui.ls={kind:'month',fresh:true,year:+ui.month.slice(0,4)};render()}
+  else if(a==='myear'){ui.ls.year+=+t.dataset.d;render()}
+  else if(a==='pickym'||a==='thismonth'){ui.chartScroll=undefined;ui.month=a==='thismonth'?curMonth:t.dataset.ym;ui.ls=null;render()}
+  else if(a==='bankimport'){
+    var bs=ui.ls,bsel=bs.items.filter(function(x){return !x.dup&&bs.on[x.g]});
+    if(!bsel.length)return;
+    if(S.demo){S.expenses=[];S.demo=false}
+    var blast='',bu=uid();
+    bsel.forEach(function(x,i){
+      S.expenses.push({id:bu+'_'+i,amt:Math.round(x.amt*100)/100,cat:x.kind==='in'?'income':x.cat,note:x.note,date:x.date,type:x.kind,bid:x.bid});
+      if(x.date>blast)blast=x.date;
+    });
+    var bm=(blast||todayStr).slice(0,7);ui.month=bm<=curMonth?bm:curMonth;
+    ui.ls=null;ui.tab='days';ui.anim='tab';save();render();toast('დაემატა '+bsel.length+' ჩანაწერი');
+  }
+  else if(a==='togglesearch'){
+    if(ui.searchOpen||(ui.q||'').trim()){ui.searchOpen=false;ui.q=''}
+    else{ui.searchOpen=true;ui.focusQ=true}
+    render();
+    var qf=document.getElementById('q');if(qf&&ui.focusQ){try{qf.focus()}catch(e){}}ui.focusQ=false;
+  }
+  else if(a==='sumview'){if((ui.sumView||'out')!==t.dataset.v){ui.sumView=t.dataset.v;ui.chartScroll=undefined;render()}}
+  else if(a==='pickmonth'){if(t.dataset.m!==ui.month){var pcs=document.querySelector('.chartscroll');ui.chartScroll=pcs?pcs.scrollLeft:undefined;ui.month=t.dataset.m;render()}}
+  else if(a==='incsrc'){var iks=incKeys(),ii=+t.dataset.i;ui.incSrc=ii<0?'ALL':iks[ii];var ics=document.querySelector('.chartscroll');ui.chartScroll=ics?ics.scrollLeft:undefined;render()}
+  else if(a==='dailytoggle'){ui.dailyOpen=!ui.dailyOpen;var dx=document.getElementById('dc_info');if(dx)dx.classList.toggle('open',ui.dailyOpen);var dv=document.getElementById('dc_chev');if(dv)dv.style.transform='rotate('+(ui.dailyOpen?180:0)+'deg)'}
+  else if(a==='dailyfilter'){ui.dailyFilter=!ui.dailyFilter;var dy=document.getElementById('dc_cats');if(dy)dy.classList.toggle('open',ui.dailyFilter);t.setAttribute('aria-pressed',String(!!ui.dailyFilter))}
+  else if(a==='dailycat'){ui.dailyCat=t.dataset.cat||null;ui.dailyFilter=false;var dz=document.getElementById('dc_cats');if(dz)dz.classList.remove('open');setTimeout(render,280)}
+  else if(a==='quick'){var qi=quickList()[+t.dataset.i];if(qi){readSheet();var qe=ui.sheet.e;qe.note=qi.note;qe.cat=qi.cat;qe.amt=qi.amt;qe.type='out';render()}}
+  else if(a==='gobackup'){ui.tab='plan';ui.anim='tab';render();window.scrollTo(0,document.body.scrollHeight)}
+  else if(a==='snooze'){S.snooze=Date.now()+7*864e5;save();render()}
+  else if(a==='newRecur'){ui.ls={kind:'recur',editing:false,fresh:true,focus:true,l:{amt:'',cat:'home',note:'',day:1}};render()}
+  else if(a==='editRecur'){var Rr=(S.recurring||[]).filter(function(x){return x.id===t.dataset.id})[0];if(Rr){ui.ls={kind:'recur',editing:true,fresh:true,l:{id:Rr.id,amt:Rr.amt,cat:Rr.cat,note:Rr.note,day:Rr.day}};render()}}
+  else if(a==='rcpick'){readLs();ui.ls.l.cat=t.dataset.cat;render()}
+  else if(a==='saveRecur'){
+    readLs();var rl=ui.ls.l,rm=num(rl.amt),dy=Math.min(31,Math.max(1,Math.round(num(rl.day))||1));
+    if(!(rm>0)){var rai=document.getElementById('rc_amt');if(rai)rai.focus();return}
+    var rn=(rl.note||'').trim(),late=false;S.recurring=S.recurring||[];
+    if(ui.ls.editing){S.recurring=S.recurring.map(function(x){return x.id===rl.id?{id:x.id,amt:rm,cat:rl.cat,note:rn,day:dy,from:x.from,done:x.done||[]}:x})}
+    else{late=dy<=now.getDate();S.recurring.push({id:uid(),amt:rm,cat:rl.cat,note:rn,day:dy,from:late?shiftM(curMonth,1):curMonth,done:[]})}
+    ui.ls=null;applyRecurring();save();render();toast(late?'დაემატება შემდეგი თვიდან':'შენახულია');
+  }
+  else if(a==='delRecurAsk'){readLs();ui.ls.confirmDel=true;render()}
+  else if(a==='delRecur'){var rid=ui.ls.l.id;S.recurring=S.recurring.filter(function(x){return x.id!==rid});ui.ls=null;save();render();toast('წაიშალა')}
+  else if(a==='newLoan'){ui.ls={kind:'loan',editing:false,fresh:true,focus:true,l:{name:'',total:'',months:3}};render()}
+  else if(a==='editLoan'){var Le=loanById(t.dataset.id);if(Le){ui.ls={kind:'loan',editing:true,fresh:true,l:{id:Le.id,name:Le.name,total:Le.total,months:Le.months}};render()}}
+  else if(a==='repay'){
+    var Lp=loanById(t.dataset.id);
+    if(Lp){var sp=loanStats(Lp),sug=Math.round(Math.min(sp.due>0?sp.due:sp.monthly,sp.rem)*100)/100;
+      ui.ls={kind:'repay',fresh:true,focus:true,loanId:Lp.id,amt:sug,date:todayStr};render()}
+  }
+  else if(a==='saveLoan'){
+    readLs();var ll=ui.ls.l,tot=num(ll.total),mo=Math.round(num(ll.months))||0;
+    if(!(tot>0)){var ti=document.getElementById('l_total');if(ti)ti.focus();return}
+    if(mo<1)mo=1;
+    var nm=(ll.name||'').trim()||'სესხი';
+    S.loans=S.loans||[];
+    if(ui.ls.editing){S.loans=S.loans.map(function(x){return x.id===ll.id?{id:ll.id,name:nm,total:tot,months:mo,date:x.date}:x})}
+    else{S.loans.push({id:uid(),name:nm,total:tot,months:mo,date:todayStr})}
+    ui.ls=null;save();render();toast('შენახულია');
+  }
+  else if(a==='delLoanAsk'){readLs();ui.ls.confirmDel=true;render()}
+  else if(a==='delLoan'){var lid=ui.ls.l.id;S.loans=S.loans.filter(function(x){return x.id!==lid});ui.ls=null;save();render();toast('წაიშალა')}
+  else if(a==='saveRepay'){
+    readLs();var rs=ui.ls,rv=num(rs.amt),Lr=loanById(rs.loanId);
+    if(!(rv>0)||!Lr){var ri=document.getElementById('r_amt');if(ri)ri.focus();return}
+    S.expenses.push({id:uid(),amt:rv,cat:'loan',note:'სესხი: '+Lr.name,date:rs.date,type:'out',loanId:Lr.id});
+    ui.ls=null;ui.month=rs.date.slice(0,7);save();render();toast('ჩარიცხვა დაემატა ხარჯებში');
+  }
   else if(a==='newcat'){readSheet();ui.sheet.adding=true;ui.sheet.focusCat=true;render()}
   else if(a==='addcat'){
     var inp=document.getElementById('f_newcat'),nm=inp?inp.value.trim():'';
@@ -338,29 +936,39 @@ document.addEventListener('click',function(ev){
     S.customCats=S.customCats||[];
     var nc={id:'c'+uid(),n:nm,c:'var(--c'+(S.customCats.length%6)+')'};
     S.customCats.push(nc);syncCustom();
-    ui.sheet.e.cat=nc.id;ui.sheet.adding=false;save();render();
+    ui.sheet.e.cat=nc.id;ui.sheet.e.type='out';ui.sheet.adding=false;save();render();
   }
   else if(a==='saveSheet'){
     readSheet();var e=ui.sheet.e,v=num(e.amt);
     if(!(v>0)){var f=document.getElementById('f_amt');if(f)f.focus();return}
     var rec={amt:v,cat:e.type==='in'?'income':e.cat,note:e.note.trim(),date:e.date,type:e.type};
+    if(e.loanId){rec.loanId=e.loanId;rec.cat='loan'}
+    var bk=(e.type==='in'||e.loanId)?0:(num(e.back)||0);if(bk>0)rec.back=Math.round(Math.min(bk,v)*100)/100;
     if(ui.sheet.editing){rec.id=e.id;S.expenses=S.expenses.map(function(x){return x.id===e.id?rec:x})}
     else{rec.id=uid();S.expenses.push(rec)}
-    ui.month=e.date.slice(0,7);ui.sheet=null;save();render();toast('შენახულია');
+    ui.month=e.date.slice(0,7);ui.sheet=null;ui.flash=rec.id;save();render();setTimeout(function(){ui.flash=null},1700);toast('შენახულია');
   }
   else if(a==='delAsk'){readSheet();ui.confirmDel=true;render()}
   else if(a==='delete'){var id=ui.sheet.e.id;S.expenses=S.expenses.filter(function(x){return x.id!==id});ui.sheet=null;ui.confirmDel=false;save();render();toast('წაიშალა')}
-  else if(a==='clearDemo'){S={income:S.income,budgets:S.budgets,expenses:[],demo:false};save();render()}
-  else if(a==='clearAsk'){ui.confirmClear=true;render()}
-  else if(a==='clearAll'){S={income:0,budgets:{},expenses:[],demo:false};ui.confirmClear=false;save();render();toast('მონაცემები წაიშალა')}
-  else if(a==='export'){
-    var txt=JSON.stringify(S),box=document.getElementById('io');box.value=txt;box.select();
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast('ასლი გადაწერილია')},function(){toast('მონიშნე და გადაწერე ხელით')})}
-    else toast('მონიშნე და გადაწერე ხელით');
-  }
-  else if(a==='import'){
-    try{var o=JSON.parse(document.getElementById('io').value);if(!o||!Array.isArray(o.expenses))throw 0;o.demo=false;S=o;syncCustom();save();render();toast('აღდგენილია')}
-    catch(e){toast('ასლი ვერ წაიკითხა')}
+  else if(a==='clearDemo'){S.expenses=[];S.demo=false;save();render()}
+  else if(a==='exportfile'){
+    var mark=function(){S.lastBackup=Date.now();save();render()};
+    var tx=JSON.stringify(S),fn='finance-backup-'+todayStr+'.json',done=false;
+    try{
+      var file=new File([tx],fn,{type:'application/json'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file]}).then(mark,function(){});done=true}
+    }catch(e){}
+    if(!done){
+      try{
+        var bu=URL.createObjectURL(new Blob([tx],{type:'application/json'})),la=document.createElement('a');
+        la.href=bu;la.download=fn;document.body.appendChild(la);la.click();la.remove();
+        setTimeout(function(){URL.revokeObjectURL(bu)},4000);done=true;mark();toast('ფაილი ჩამოიტვირთა');
+      }catch(e){}
+    }
+    if(!done){
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){mark();toast('ფაილის ჩამოტვირთვა აქ შეუძლებელია, ტექსტი დაკოპირდა')},function(){toast('გადმოწერა ამ გვერდზე ვერ მოხერხდა')})}
+      else toast('გადმოწერა ამ გვერდზე ვერ მოხერხდა');
+    }
   }
 });
 document.getElementById('fab').addEventListener('click',function(){openSheet()});
@@ -368,11 +976,56 @@ document.addEventListener('keydown',function(ev){
   if(ev.key==='Enter'&&ev.target.id==='f_newcat'){ev.preventDefault();var b=document.querySelector('[data-act="addcat"]');if(b)b.click()}
 });
 document.addEventListener('input',function(ev){
+  if(ev.target.id==='q'){
+    ui.q=ev.target.value;var on=!!ui.q.trim();
+    var ql=document.getElementById('dayslist');if(ql)ql.innerHTML=daysList();
+    var qm=document.querySelector('#app .monthpill');if(qm)qm.hidden=on;
+    var qc=document.getElementById('daycards');if(qc)qc.hidden=on;
+    return;
+  }
   var b=ev.target.dataset&&ev.target.dataset.bind;if(!b)return;
   var v=num(ev.target.value)||0;
-  if(b==='income')S.income=v;else S.budgets[b.slice(2)]=v;
+  S.budgets[b.slice(2)]=v;
   S.demo=S.demo;save();
-  var f=document.getElementById('planfoot');if(f){var tb=totalBudget(),inc=+S.income||0;f.textContent=planFoot(tb,inc-tb,inc)}
+  var f=document.getElementById('plansum');if(f)f.innerHTML=planSummary(sum(monthInc(curMonth)))
+});
+document.addEventListener('change',function(ev){
+  if(ev.target.id==='bankfile'){
+    var bf=ev.target.files&&ev.target.files[0];if(!bf)return;
+    var rd=new FileReader();
+    rd.onload=function(){
+      loadXlsx(function(){
+        try{
+          var wb=XLSX.read(new Uint8Array(rd.result),{type:'array'}),res=parseStatement(wb);
+          if(!res||!res.items.length){toast('ამონაწერის ფორმატი ვერ ამოვიცანი');return}
+          var on={};BGROUPS.forEach(function(g){on[g[0]]=g[2]});
+          ui.ls={kind:'bank',fresh:true,items:res.items,on:on,from:res.from,to:res.to,owner:res.owner};render();
+        }catch(e){toast('ფაილი ვერ წაიკითხა')}
+      },function(){toast('ბიბლიოთეკა ვერ ჩაიტვირთა, შეამოწმე ინტერნეტი')});
+    };
+    rd.onerror=function(){toast('ფაილი ვერ წაიკითხა')};
+    rd.readAsArrayBuffer(bf);
+    return;
+  }
+  if(ev.target.dataset&&ev.target.dataset.grp&&ui.ls&&ui.ls.kind==='bank'){ui.ls.on[ev.target.dataset.grp]=ev.target.checked;render();return}
+  if(ev.target.id==='importfile'){
+    var pf=ev.target.files&&ev.target.files[0];if(!pf)return;
+    var fr=new FileReader();fr.onload=function(){doImport(String(fr.result))};fr.onerror=function(){toast('ფაილი ვერ წაიკითხა')};fr.readAsText(pf);
+    return;
+  }
+  if(ev.target.id!=='f_note'||!ui.sheet||ui.sheet.editing||ui.sheet.e.loanId||ui.sheet.e.type==='in')return;
+  var v=ev.target.value.trim().toLowerCase();if(!v)return;
+  var m=quickList(999).filter(function(x){return x.note.toLowerCase()===v})[0];if(!m)return;
+  ui.sheet.e.cat=m.cat;
+  var a=document.getElementById('f_amt');if(a&&!a.value)a.value=m.amt;
+  var bs=document.querySelectorAll('#modal [data-act="pick"]');
+  for(var i=0;i<bs.length;i++)bs[i].setAttribute('aria-pressed',String(bs[i].dataset.cat===m.cat));
+});
+document.addEventListener('scroll',function(ev){
+  var t=ev.target;if(t&&t.classList&&t.classList.contains('chartscroll'))ui.chartScroll=t.scrollLeft;
+},true);
+document.addEventListener('visibilitychange',function(){
+  if(!document.hidden&&ymd(new Date())!==todayStr&&!ui.sheet&&!ui.ls)location.reload();
 });
 render();
 })();
